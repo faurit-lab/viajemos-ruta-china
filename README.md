@@ -39,7 +39,8 @@ HTML ni en el JS de `app/`.
       "stops": [
         { "id", "n", "cn"?, "lat"?, "lng"?, "stage"?, "opt"?, "tipo"?,
           "categoria"?, "prioridad"?, "estado"?, "mejor_momento"?,
-          "notas_extra"?, "audio_texto"?, "geocode_pending"? }
+          "notas_extra"?, "audio_texto"?, "imagen"?, "galeria"?,
+          "geocode_pending"? }
       ]
     }
   ],
@@ -49,6 +50,14 @@ HTML ni en el JS de `app/`.
 
 Todos los campos de una parada salvo `id` y `n` son opcionales — la app no
 rompe si faltan (ver L1 en la especificación técnica).
+
+**Multimedia:** `imagen` (una foto de cabecera para la ficha) y `galeria`
+(array de fotos adicionales) son opcionales — sin ellas, la ficha muestra la
+banda de color por etapa, como ahora. Basta con añadir una URL (o una ruta
+relativa a un archivo dentro de `app/images/`, si se prefiere no depender de
+un hosting externo) para que aparezcan automáticamente, sin tocar código.
+El Service Worker las cachea solas la primera vez que se cargan — no hace
+falta añadirlas a la lista de `SHELL_ASSETS` en `sw.js`.
 
 ## Estructura del repo
 

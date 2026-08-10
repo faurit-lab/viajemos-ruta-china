@@ -113,7 +113,13 @@ body {
 .stop-overlay { position: fixed; inset: 0; background: rgba(35,30,25,.55); display: none; align-items: flex-end; justify-content: center; z-index: 200; }
 .stop-overlay.open { display: flex; }
 .stop-overlay-card { background: var(--card); width: 100%; max-width: 720px; border-radius: 16px 16px 0 0; max-height: 88vh; overflow-y: auto; }
-.sd-band { position: relative; padding: 18px 44px 16px 20px; color: #fff; border-radius: 16px 16px 0 0; }
+.sd-band { position: relative; padding: 18px 44px 16px 20px; color: #fff; border-radius: 16px 16px 0 0; overflow: hidden; background: var(--ink); }
+.sd-band-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.sd-band::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15)); z-index: 0; }
+.sd-band:has(.sd-band-img) { min-height: 140px; display: flex; align-items: flex-end; }
+.sd-close, .sd-band-inner { position: relative; z-index: 1; }
+.sd-gallery { display: flex; gap: 8px; overflow-x: auto; margin: 4px 0 10px; }
+.sd-gallery img { height: 90px; width: auto; border-radius: 8px; flex: 0 0 auto; }
 .sd-close { position: absolute; top: 12px; right: 14px; background: rgba(255,255,255,.2); border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; cursor: pointer; }
 .sd-index { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; opacity: .85; }
 .sd-title { font-size: 20px; font-weight: 700; margin-top: 4px; }

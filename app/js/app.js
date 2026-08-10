@@ -308,8 +308,20 @@ function renderStopDetail(stop) {
   if (stop.estado) meta.push(`<span class="pill">${stop.estado}</span>`);
   if (stop.tipo) meta.push(`<span class="pill pill-tipo">${stop.tipo}</span>`);
 
+  // Multimedia: si la parada trae foto (`imagen`), se muestra sobre la
+  // banda de color en vez de sustituirla — así funciona igual de bien con
+  // 0 fotos que con todas. `galeria` es opcional, para más de una imagen.
+  const bandStyle = stop.imagen ? '' : `style="background:${color}"`;
+  const bandImg = stop.imagen
+    ? `<img class="sd-band-img" src="${stop.imagen}" alt="" onerror="this.remove()">`
+    : '';
+  const galleryStrip = Array.isArray(stop.galeria) && stop.galeria.length
+    ? `<div class="sd-gallery">${stop.galeria.map((src) => `<img src="${src}" alt="" loading="lazy" onerror="this.remove()">`).join('')}</div>`
+    : '';
+
   card.innerHTML = `
-    <div class="sd-band" style="background:${color}">
+    <div class="sd-band" ${bandStyle}>
+      ${bandImg}
       <button class="sd-close" id="sd-close">✕</button>
       <div class="sd-band-inner">
         <div class="sd-index">Parada ${index + 1} de ${total} · ${day.stage_name}</div>
@@ -322,6 +334,7 @@ function renderStopDetail(stop) {
       ${stop.mejor_momento ? `<div class="sd-row"><b>Mejor momento:</b> ${stop.mejor_momento}</div>` : ''}
       ${stop.notas_extra ? `<div class="sd-row">${stop.notas_extra}</div>` : ''}
       ${stop.opt ? `<div class="sd-row sd-opt">Parada opcional — según tiempo y energía.</div>` : ''}
+      ${galleryStrip}
 
       <div class="sd-note-block">
         <textarea class="stop-note-input" id="sd-note" placeholder="Nota, gasto, valoración, enlace a foto..."></textarea>
