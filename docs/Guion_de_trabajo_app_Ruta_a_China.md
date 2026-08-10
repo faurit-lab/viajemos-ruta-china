@@ -84,12 +84,26 @@ Mi papel a partir de aquí: revisar lo que produzca Codex contra esta especifica
 - Prueba de uso en móvil (es la agenda que usaréis en el viaje).
 - Congelar versión antes del 25/08.
 
+### Fase 5 · Ejecución — EN CURSO (10/08/2026)
+En vez de encargar la construcción a Codex, se decidió que Claude construyera directamente la PWA en `app/`, siguiendo la especificación técnica cerrada. Avance:
+- ✅ **L0 Agenda**: 17 días navegables, marcar visitado, notas libres, añadir paradas — persistido en IndexedDB.
+- ✅ **L1 Fichas enriquecidas**: categoría/prioridad/estado/mejor momento/notas, se muestran solo cuando existen.
+- ✅ **L2 Mapa**: Leaflet + OpenStreetMap, marcadores numerados por día, filtro por categoría.
+- ✅ **L3 Audioguía por geolocalización**: geofencing con radio configurable (120 m por defecto), dispara TTS vía Web Speech API (decisión: sin backend, funciona offline en la mayoría de Android/Chrome), botón manual de prueba por ficha.
+- 🟡 **L4 Logística**: parcial — se muestran notas de vuelo/traslado por día, falta superponer alojamientos y ventanas de compra de billetes de forma estructurada.
+- ⬜ **L5 Diario**: no iniciado (previsto para después del viaje, como marca la spec).
+- ✅ **Geocodificación**: resuelto vía Nominatim/OSM — 76 de 77 paradas con coordenadas (antes 70). Solo queda `Wulong Village y Tianbo Mansion` sin resolver (parada opcional, nombre ambiguo en OSM — ver `geocode_note` en el dataset).
+
+Probado en navegador (servidor local): las 3 vistas cargan sin errores de consola, el mapa pinta correctamente, marcar visitado y la reproducción de audio funcionan.
+
+**Pendiente para considerar el encargo cerrado:**
+1. Desplegar en hosting HTTPS real (geolocalización y Service Worker no funcionan en local ni sobre HTTP) — pendiente de decidir proveedor con el usuario antes de publicar nada.
+2. Prueba de campo en móvil real (instalar, activar audioguía, verificar el radio de geofencing en Beijing con paradas próximas entre sí).
+3. Resolver manualmente la coordenada de Wulong Village si se decide activar esa parada opcional.
+4. Rediseño visual (pendiente, fuera del alcance de esta fase — el tono actual hereda el prototipo de referencia).
+
 ---
 
 ## 3 · Estado actual
 
-**Fases 1 a 4 cerradas.** El proyecto está encaminado a producción: dataset fusionado, coordenadas mayoritariamente resueltas, especificación técnica escrita y criterios de "hecho" definidos.
-
-Lo único pendiente antes de considerar el encargo 100% completo son las 7 coordenadas sin geocodificar (hoteles y puntos genéricos) — quedan explícitamente marcadas en el dataset y asignadas como primer paso de trabajo dentro de la especificación, no bloquean el arranque.
-
-**Siguiente acción real: entregar los tres archivos a Codex y arrancar la Fase 5.**
+**Fases 1 a 4 cerradas. Fase 5 en curso**, construida directamente por Claude (no por Codex). Dataset fusionado y geocodificado al 99% (76/77), app funcional en las 4 capas prioritarias (L0-L3), pendiente de despliegue en hosting real y prueba de campo.
