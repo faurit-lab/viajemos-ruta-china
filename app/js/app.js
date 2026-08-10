@@ -106,7 +106,7 @@ function renderRouteStrip() {
     const stageNum = Number(k);
     const chip = document.createElement('div');
     chip.className = 'route-chip' + (dataset.dias[selectedDay].stage === stageNum ? ' active' : '');
-    chip.textContent = v;
+    chip.innerHTML = `<span class="dot"></span><span class="lbl">${escapeHtml(v)}</span>`;
     // Salta al primer día de esa etapa — antes las etiquetas eran solo
     // decorativas, sin ninguna acción al tocarlas.
     chip.onclick = () => {
@@ -164,7 +164,8 @@ function renderDayPanel() {
       // dentro de allStops, que las concatena.
       const openable = idx < day.stops.length;
       html += `
-        <div class="stop">
+        <div class="stop ${done ? 'done' : ''}">
+          <div class="stop-num">${String(idx + 1).padStart(2, '0')}</div>
           <div class="stop-check ${done ? 'done' : ''}" data-id="${id}">${done ? '✓' : ''}</div>
           <div class="stop-body">
             <div class="${openable ? 'stop-clickable' : ''}" ${openable ? `data-openid="${s.id}"` : ''}>
@@ -329,6 +330,7 @@ function renderStopDetail(stop) {
         <div class="sd-day">${formatDateShort(day.date)} · ${day.dow} · ${day.title}</div>
       </div>
     </div>
+    <div class="sd-perf"></div>
     <div class="sd-body">
       ${meta.length ? `<div class="stop-meta sd-meta">${meta.join('')}</div>` : ''}
       ${stop.mejor_momento ? `<div class="sd-row"><b>Mejor momento:</b> ${stop.mejor_momento}</div>` : ''}
