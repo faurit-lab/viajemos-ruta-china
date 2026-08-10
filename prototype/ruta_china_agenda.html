@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruta a China · Agenda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1E6;
+    --paper-2:#EFE7D4;
+    --ink:#231E19;
+    --ink-soft:#6B6255;
+    --seal:#B23A2E;
+    --seal-dark:#7C2A21;
+    --jade:#3E6459;
+    --jade-soft:#DCE7DF;
+    --gold:#B98A2E;
+    --line:#DDD2BA;
+    --card:#FFFDF7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  #app{max-width:720px;margin:0 auto;padding:0 0 60px;}
+
+  /* HEADER */
+  .hero{
+    padding:28px 20px 20px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(circle at 92% 10%, rgba(178,58,46,0.07), transparent 55%),
+      var(--paper);
+  }
+  .hero-eyebrow{
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft); margin:0 0 6px;
+  }
+  .hero-title{
+    font-family:'Noto Serif SC',serif;
+    font-weight:700;
+    font-size:30px;
+    margin:0 0 4px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .hero-title .cn{font-size:20px;color:var(--seal);font-weight:500;}
+  .hero-sub{font-size:14px;color:var(--ink-soft);margin:0 0 16px;}
+  .hero-stats{display:flex;gap:10px;flex-wrap:wrap;}
+  .stat{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:8px 12px;font-size:12.5px;color:var(--ink-soft);
+  }
+  .stat b{color:var(--ink);font-weight:600;}
+
+  /* ROUTE STRIP */
+  .route-strip{
+    display:flex;overflow-x:auto;gap:6px;padding:14px 20px;
+    border-bottom:1px solid var(--line);
+    scrollbar-width:none;
+  }
+  .route-strip::-webkit-scrollbar{display:none;}
+  .route-chip{
+    flex:0 0 auto;font-size:12px;color:var(--ink-soft);
+    background:var(--paper-2);border-radius:20px;padding:5px 11px;
+    white-space:nowrap;border:1px solid transparent;
+  }
+  .route-chip.active{
+    background:var(--seal);color:#fff;font-weight:500;
+  }
+
+  /* DAY NAV */
+  .day-nav{
+    display:flex;overflow-x:auto;gap:8px;padding:16px 20px 4px;
+    scrollbar-width:none;
+  }
+  .day-nav::-webkit-scrollbar{display:none;}
+  .day-btn{
+    flex:0 0 auto;
+    display:flex;flex-direction:column;align-items:center;
+    padding:8px 12px;border-radius:12px;border:1px solid var(--line);
+    background:var(--card);cursor:pointer;min-width:52px;
+    transition:background .15s, border-color .15s, transform .1s;
+  }
+  .day-btn:active{transform:scale(0.96);}
+  .day-btn .dn{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;}
+  .day-btn .dd{font-family:'Noto Serif SC',serif;font-weight:700;font-size:18px;margin-top:2px;}
+  .day-btn.selected{background:var(--ink);border-color:var(--ink);}
+  .day-btn.selected .dn, .day-btn.selected .dd{color:#fff;}
+  .day-btn.today-marker{border-color:var(--seal);}
+  .day-btn .flag{width:5px;height:5px;border-radius:50%;background:var(--seal);margin-top:3px;visibility:hidden;}
+  .day-btn.has-travel .flag{visibility:visible;}
+
+  /* DAY PANEL */
+  .day-panel{padding:18px 20px 0;}
+  .day-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;}
+  .day-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:20px;}
+  .day-stage{font-size:12px;color:var(--seal);font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+  .day-note{font-size:13px;color:var(--ink-soft);margin:2px 0 18px;line-height:1.5;}
+
+  .stop{
+    display:flex;gap:12px;padding:13px 0;border-top:1px solid var(--line);
+  }
+  .stop:first-of-type{border-top:none;}
+  .stop-check{
+    flex:0 0 auto;width:22px;height:22px;border-radius:50%;
+    border:1.5px solid var(--line);background:var(--card);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;margin-top:2px;font-size:12px;color:transparent;
+    transition:all .15s;
+  }
+  .stop-check.done{background:var(--jade);border-color:var(--jade);color:#fff;}
+  .stop-body{flex:1;min-width:0;}
+  .stop-name{font-size:15px;font-weight:500;line-height:1.35;}
+  .stop-name.done{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--line);}
+  .stop-cn{font-family:'Noto Serif SC',serif;font-size:13px;color:var(--gold);margin-left:6px;}
+  .stop-opt{
+    font-size:10.5px;color:var(--seal);border:1px solid var(--seal);
+    border-radius:6px;padding:1px 5px;margin-left:6px;vertical-align:middle;
+  }
+  .stop-note-txt{font-size:12.5px;color:var(--ink-soft);margin-top:3px;white-space:pre-wrap;}
+  .stop-note-input{
+    width:100%;margin-top:6px;font-size:12.5px;font-family:'Inter',sans-serif;
+    border:1px solid var(--line);border-radius:8px;padding:6px 8px;
+    background:var(--paper-2);color:var(--ink);resize:vertical;min-height:32px;
+  }
+  .stop-note-btn{
+    font-size:11.5px;color:var(--jade);background:none;border:none;padding:4px 0 0;
+    cursor:pointer;font-weight:500;
+  }
+  .empty-day{
+    text-align:center;color:var(--ink-soft);font-size:13px;padding:30px 0;
+  }
+
+  /* ADD STOP */
+  .add-stop-row{padding:16px 0 30px;}
+  .add-toggle{
+    width:100%;border:1px dashed var(--line);background:none;border-radius:10px;
+    padding:10px;font-size:13px;color:var(--ink-soft);cursor:pointer;
+  }
+  .add-form{display:none;gap:8px;flex-direction:column;margin-top:10px;}
+  .add-form.open{display:flex;}
+  .add-form input, .add-form textarea{
+    font-family:'Inter',sans-serif;font-size:13px;padding:8px 10px;
+    border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);
+  }
+  .add-form-actions{display:flex;gap:8px;}
+  .btn{
+    font-size:13px;font-weight:500;padding:8px 14px;border-radius:8px;border:1px solid var(--line);
+    background:var(--card);cursor:pointer;color:var(--ink);
+  }
+  .btn.primary{background:var(--seal);border-color:var(--seal);color:#fff;}
+
+  .footer-note{
+    text-align:center;font-size:11.5px;color:var(--ink-soft);padding:10px 20px 0;
+  }
+  .save-flag{
+    position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;font-size:12px;padding:7px 14px;border-radius:20px;
+    opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;
+  }
+  .save-flag.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="hero">
+    <p class="hero-eyebrow">Travel OS · agenda personal</p>
+    <h1 class="hero-title">Ruta a China <span class="cn">中国之旅</span></h1>
+    <p class="hero-sub">Fauri &amp; Antonio · 25 ago – 10 sep 2026 · 15 noches</p>
+    <div class="hero-stats">
+      <div class="stat"><b>17</b> jornadas</div>
+      <div class="stat"><b>7</b> etapas</div>
+      <div class="stat"><b id="stat-stops">76</b> fichas</div>
+      <div class="stat"><b id="stat-done">0</b> visitadas</div>
+    </div>
+  </div>
+
+  <div class="route-strip" id="route-strip"></div>
+  <div class="day-nav" id="day-nav"></div>
+  <div class="day-panel" id="day-panel"></div>
+
+  <p class="footer-note">Toca un círculo para marcar visitado · toca "+ nota" para añadir notas, gastos o fotos futuras</p>
+</div>
+<div class="save-flag" id="save-flag">Guardado</div>
+
+<script>
+const STORAGE_KEY = 'ruta-china-agenda-v1';
+
+const STAGES = {
+  1:'Beijing', 2:'Zhangjiajie / Wulingyuan', 3:'Fenghuang', 4:'Chongqing',
+  5:'Yangshuo', 6:'Guangzhou', 7:'Shenzhen', 0:'Vuelos internacionales'
+};
+
+const DAYS = [
+  { date:'25/08', dow:'Mar', stage:0, title:'Salida hacia Pekín', note:'Vuelo CA846, Barcelona → Pekín, 12:30 salida BCN.', travel:true, stops:[] },
+  { date:'26/08', dow:'Mié', stage:1, title:'Templos y hutongs de Dongcheng', stops:[
+    {n:'Templo de los Lamas', cn:'雍和宫'},
+    {n:'Confucio y Colegio Imperial', cn:'北京孔庙 / 国子监'},
+    {n:'Wudaoying Hutong', cn:'五道营胡同'},
+    {n:'Gui Street', cn:'簋街'}
+  ]},
+  { date:'27/08', dow:'Jue', stage:1, title:'Gulou y Shichahai · salida a Zhangjiajie', travel:true, note:'Vuelo interno CA1953 PEK → DYG (Zhangjiajie), 19:15–21:45.', stops:[
+    {n:'Torres del Tambor y la Campana', cn:'北京鼓楼 / 北京钟楼'},
+    {n:'Yandai Xiejie', cn:'烟袋斜街'},
+    {n:'Yinding Bridge', cn:'银锭桥'},
+    {n:'Qianhai y Shichahai', cn:'前海 / 什刹海'}
+  ]},
+  { date:'28/08', dow:'Vie', stage:2, title:'Tianmen Mountain', stops:[
+    {n:'Tianmen Mountain', cn:'天门山'},
+    {n:'Teleférico de Tianmen', cn:'天门山索道'},
+    {n:'Pasarelas de Tianmen y Panlong Cliff', cn:'天门山玻璃栈道 / 盘龙崖玻璃栈道'},
+    {n:'Tianmen Cave', cn:'天门洞'}
+  ]},
+  { date:'29/08', dow:'Sáb', stage:2, title:'Yuanjiajie y Yangjiajie', stops:[
+    {n:'Ascensor Bailong', cn:'百龙天梯'},
+    {n:'Yuanjiajie', cn:'袁家界'},
+    {n:'Enchanting Terrace', cn:'迷魂台'},
+    {n:'Hallelujah / Avatar Mountain', cn:'哈利路亚山 / 乾坤柱'},
+    {n:'First Bridge Under Heaven', cn:'天下第一桥'},
+    {n:'Yangjiajie', cn:'杨家界'},
+    {n:'Natural Great Wall', cn:'杨家界天然长城'},
+    {n:'Wulong Village y Tianbo Mansion', cn:'乌龙寨 / 天波府', opt:true}
+  ]},
+  { date:'30/08', dow:'Dom', stage:2, title:'Jornada flexible', note:'La meteorología decide el orden. No cambian fechas ni conexión a Fenghuang.', stops:[
+    {n:'Golden Whip Stream', cn:'金鞭溪'},
+    {n:'Water Winding Four Gates', cn:'水绕四门'},
+    {n:'Grand Canyon y Glass Bridge', cn:'张家界大峡谷 / 玻璃桥', opt:true},
+    {n:'Baofeng Lake', cn:'宝峰湖', opt:true}
+  ]},
+  { date:'31/08', dow:'Lun', stage:2, title:'Tianzi Mountain · salida a Fenghuang', stops:[
+    {n:'Tianzi Mountain', cn:'天子山'},
+    {n:'Helong Park', cn:'贺龙公园'},
+    {n:'Imperial Brush Peak', cn:'御笔峰'},
+    {n:'Fairy Dispersing Flowers', cn:'仙女散花'},
+    {n:'Ten-Mile Gallery', cn:'十里画廊'},
+    {n:'Fenghuang y el río Tuojiang (noche)', cn:'凤凰古城 / 沱江', stage:3},
+    {n:'North Gate y Stepping Stones', cn:'北门城楼 / 沱江跳岩', stage:3},
+    {n:'Hongqiao Wind and Rain Building', cn:'虹桥风雨楼', stage:3},
+    {n:'Casas sobre pilotes de Huilongge', cn:'回龙阁吊脚楼', stage:3},
+    {n:'Wanming Pagoda', cn:'万名塔', stage:3}
+  ]},
+  { date:'01/09', dow:'Mar', stage:3, title:'Fenghuang histórico · salida a Chongqing', stops:[
+    {n:'Puertas y muralla de Fenghuang', cn:'北门 / 东门城楼'},
+    {n:'East Main Street', cn:'东正街'},
+    {n:'Casa natal de Shen Congwen', cn:'沈从文故居'},
+    {n:'Jiefangbei (llegada Chongqing)', cn:'解放碑', stage:4},
+    {n:'Sabores de Chongqing', cn:'重庆味道', stage:4}
+  ]},
+  { date:'02/09', dow:'Mié', stage:4, title:'Chongqing vertical', stops:[
+    {n:'Liziba Station', cn:'李子坝站'},
+    {n:'Eling Park y Liangjiang Pavilion', cn:'鹅岭公园 / 两江亭'},
+    {n:'Eling Second Factory', cn:'鹅岭二厂'},
+    {n:'Luohan Temple', cn:'罗汉寺'},
+    {n:'Raffles City y Chaotianmen', cn:'重庆来福士 / 朝天门'},
+    {n:'Confluencia Yangtsé–Jialing', cn:'两江交汇'},
+    {n:'Qiansimen y Hongya Cave', cn:'千厮门大桥 / 洪崖洞'}
+  ]},
+  { date:'03/09', dow:'Jue', stage:5, title:'Salida a Yangshuo', travel:true, note:'Salida protegida hacia Yangshuo.', stops:[
+    {n:'Yangshuo y Jima Village', cn:'阳朔 / 骥马村'}
+  ]},
+  { date:'04/09', dow:'Vie', stage:5, title:'Río Yulong y Jiuxian', stops:[
+    {n:'Karst de Guilin', cn:'桂林喀斯特'},
+    {n:'Río Yulong', cn:'遇龙河'},
+    {n:'Paisaje rural del valle del Yulong', cn:'遇龙河田园'},
+    {n:'Balsas de bambú del Yulong', cn:'竹筏漂流', opt:true},
+    {n:'Jiuxian Ancient Village', cn:'旧县村'}
+  ]},
+  { date:'05/09', dow:'Sáb', stage:5, title:'Xingping · salida a Guangzhou', stops:[
+    {n:'Xingping Ancient Town', cn:'兴坪古镇'},
+    {n:'Río Li y billete de 20 yuanes', cn:'漓江 / 二十元人民币背景图'},
+    {n:'Tianhe Road (llegada Guangzhou)', cn:'天河路', stage:6}
+  ]},
+  { date:'06/09', dow:'Dom', stage:6, title:'Zhanxi y ciudad moderna', stops:[
+    {n:'Distrito comercial de Zhanxi', cn:'站西商圈'},
+    {n:'Baima Clothing Market', cn:'白马服装市场'},
+    {n:'Protocolo de compra en mercados', cn:'批发市场购物'},
+    {n:'Buyun Tiandi Footwear World', cn:'步云天地鞋城'},
+    {n:'Zhujiang New Town', cn:'珠江新城'},
+    {n:'Río Perla y Canton Tower', cn:'珠江 / 广州塔'}
+  ]},
+  { date:'07/09', dow:'Lun', stage:6, title:'Dim sum · salida a Shenzhen', stops:[
+    {n:'Dim sum y cocina cantonesa', cn:'点心 / 粤菜'},
+    {n:'Shenzhen, ciudad de reforma (llegada)', cn:'深圳', stage:7},
+    {n:'Huaqiangbei', cn:'华强北', stage:7},
+    {n:'SEG Electronics Market', cn:'赛格电子市场', stage:7},
+    {n:'Huaqiang Electronics World', cn:'华强电子世界', stage:7},
+    {n:'Gangxia North', cn:'岗厦北站', stage:7},
+    {n:'Futian y Civic Center', cn:'福田 / 市民中心', stage:7}
+  ]},
+  { date:'08/09', dow:'Mar', stage:7, title:'Shenzhen tecnológico completo', note:'Jornada completa fijada en Shenzhen.', stops:[
+    {n:'Huaqiangbei Museum', cn:'华强北博物馆'},
+    {n:'Del componente al prototipo', cn:'从元件到原型'},
+    {n:'Compra segura en Huaqiangbei', cn:'华强北购物检查'},
+    {n:'Museo de Arte y Planificación Urbana', cn:'深圳市当代艺术与城市规划馆'},
+    {n:'Lianhuashan y Deng Xiaoping', cn:'莲花山 / 邓小平雕像'},
+    {n:'Ping An y Greater Bay Area', cn:'平安金融中心 / 粤港澳大湾区'}
+  ]},
+  { date:'09/09', dow:'Mié', stage:0, title:'Vuelo protegido a Pekín', note:'Regreso a Beijing/PEK, noche de protección para el vuelo internacional del 10/09.', travel:true, stops:[] },
+  { date:'10/09', dow:'Jue', stage:0, title:'Vuelta a Barcelona', note:'Vuelo CA571, Pekín → Barcelona, 11:00 PEK, 12h30 duración, llegada 17:30 BCN (+1 día).', travel:true, stops:[] }
+];
+
+// flatten stop ids
+let idc = 0;
+DAYS.forEach((d, di) => { d._i = di; d.stops.forEach(s => { s._id = 'd'+di+'-s'+(idc++); s._stage = s.stage || d.stage; }); });
+
+let state = { done:{}, notes:{}, custom:{} }; // custom: dayIndex -> array of extra stops
+let selectedDay = 1; // default to first real day
+
+const stageColor = { 0:'var(--ink-soft)',1:'var(--seal)',2:'var(--jade)',3:'var(--gold)',4:'var(--seal)',5:'var(--jade)',6:'var(--gold)',7:'var(--seal)' };
+
+async function loadState(){
+  try{
+    const r = await window.storage.get(STORAGE_KEY);
+    if(r && r.value){ state = JSON.parse(r.value); }
+  }catch(e){ /* first run, no data yet */ }
+  render();
+}
+
+let saveTimer = null;
+function persist(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try{
+      await window.storage.set(STORAGE_KEY, JSON.stringify(state));
+      flashSaved();
+    }catch(e){ console.error('storage error', e); }
+  }, 250);
+}
+
+function flashSaved(){
+  const f = document.getElementById('save-flag');
+  f.classList.add('show');
+  setTimeout(()=>f.classList.remove('show'), 900);
+}
+
+function renderRouteStrip(){
+  const strip = document.getElementById('route-strip');
+  strip.innerHTML = '';
+  Object.entries(STAGES).forEach(([k,v]) => {
+    if(k==='0') return;
+    const chip = document.createElement('div');
+    chip.className = 'route-chip';
+    chip.textContent = v;
+    chip.dataset.stage = k;
+    strip.appendChild(chip);
+  });
+}
+
+function renderDayNav(){
+  const nav = document.getElementById('day-nav');
+  nav.innerHTML = '';
+  DAYS.forEach((d, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'day-btn' + (i===selectedDay ? ' selected':'') + (d.travel ? ' has-travel':'');
+    btn.innerHTML = `<span class="dn">${d.dow}</span><span class="dd">${d.date.split('/')[0]}</span><span class="flag"></span>`;
+    btn.onclick = () => { selectedDay = i; render(); document.getElementById('day-panel').scrollIntoView({behavior:'smooth', block:'start'}); };
+    nav.appendChild(btn);
+  });
+}
+
+function totalStops(){
+  let t = 0;
+  DAYS.forEach((d,i) => { t += d.stops.length + ((state.custom[i]||[]).length); });
+  return t;
+}
+function doneCount(){ return Object.values(state.done).filter(Boolean).length; }
+
+function renderDayPanel(){
+  const day = DAYS[selectedDay];
+  const panel = document.getElementById('day-panel');
+  const allStops = day.stops.concat(state.custom[selectedDay]||[]);
+
+  let html = `
+    <div class="day-head">
+      <div class="day-title">${day.date} · ${day.dow} · ${day.title}</div>
+    </div>
+    <div class="day-stage">${STAGES[day.stage]}</div>
+    ${day.note ? `<p class="day-note">${day.note}</p>` : '<div style="height:12px"></div>'}
+  `;
+
+  if(allStops.length === 0){
+    html += `<div class="empty-day">Día de vuelo, sin paradas fijas.</div>`;
+  } else {
+    allStops.forEach(s => {
+      const id = s._id || ('custom-'+selectedDay+'-'+allStops.indexOf(s));
+      const done = !!state.done[id];
+      const noteVal = state.notes[id] || '';
+      const stColor = stageColor[s._stage || day.stage] || 'var(--seal)';
+      html += `
+        <div class="stop">
+          <div class="stop-check ${done?'done':''}" data-id="${id}" style="${done?'':'border-color:'+stColor}">${done?'✓':''}</div>
+          <div class="stop-body">
+            <div>
+              <span class="stop-name ${done?'done':''}">${s.n}</span>
+              <span class="stop-cn">${s.cn||''}</span>
+              ${s.opt ? '<span class="stop-opt">opcional</span>':''}
+            </div>
+            ${noteVal ? `<div class="stop-note-txt">${noteVal}</div>` : ''}
+            <button class="stop-note-btn" data-noteid="${id}">${noteVal ? 'editar nota' : '+ nota'}</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  html += `
+    <div class="add-stop-row">
+      <button class="add-toggle" id="add-toggle">+ añadir parada a este día</button>
+      <div class="add-form" id="add-form">
+        <input type="text" id="new-name" placeholder="Nombre del lugar" />
+        <input type="text" id="new-cn" placeholder="Nombre en chino (opcional)" />
+        <div class="add-form-actions">
+          <button class="btn primary" id="new-save">Guardar</button>
+          <button class="btn" id="new-cancel">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  panel.innerHTML = html;
+
+  panel.querySelectorAll('.stop-check').forEach(el => {
+    el.onclick = () => {
+      const id = el.dataset.id;
+      state.done[id] = !state.done[id];
+      persist();
+      render();
+    };
+  });
+
+  panel.querySelectorAll('.stop-note-btn').forEach(el => {
+    el.onclick = () => {
+      const id = el.dataset.noteid;
+      const body = el.closest('.stop-body');
+      if(body.querySelector('.stop-note-input')) return;
+      const existing = state.notes[id] || '';
+      const ta = document.createElement('textarea');
+      ta.className = 'stop-note-input';
+      ta.value = existing;
+      ta.placeholder = 'Nota, gasto, valoración, enlace a foto...';
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'stop-note-btn';
+      saveBtn.textContent = 'guardar nota';
+      saveBtn.style.marginTop = '4px';
+      saveBtn.onclick = () => {
+        state.notes[id] = ta.value.trim();
+        persist();
+        render();
+      };
+      body.appendChild(ta);
+      body.appendChild(saveBtn);
+      ta.focus();
+    };
+  });
+
+  const toggle = document.getElementById('add-toggle');
+  const form = document.getElementById('add-form');
+  toggle.onclick = () => form.classList.toggle('open');
+  document.getElementById('new-cancel').onclick = () => {
+    form.classList.remove('open');
+    document.getElementById('new-name').value = '';
+    document.getElementById('new-cn').value = '';
+  };
+  document.getElementById('new-save').onclick = () => {
+    const name = document.getElementById('new-name').value.trim();
+    const cn = document.getElementById('new-cn').value.trim();
+    if(!name) return;
+    if(!state.custom[selectedDay]) state.custom[selectedDay] = [];
+    state.custom[selectedDay].push({ n:name, cn:cn, _id:'custom-'+selectedDay+'-'+Date.now(), _stage:day.stage });
+    persist();
+    render();
+  };
+}
+
+function highlightRouteStrip(){
+  const day = DAYS[selectedDay];
+  document.querySelectorAll('.route-chip').forEach(c => {
+    c.classList.toggle('active', parseInt(c.dataset.stage) === day.stage);
+  });
+}
+
+function render(){
+  renderDayNav();
+  renderDayPanel();
+  renderRouteStrip();
+  highlightRouteStrip();
+  document.getElementById('stat-stops').textContent = totalStops();
+  document.getElementById('stat-done').textContent = doneCount();
+}
+
+loadState();
+</script>
+</body>
+</html>
