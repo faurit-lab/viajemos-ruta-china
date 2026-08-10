@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Viajemos · Ruta a China</title>
+<meta name="theme-color" content="#B23A2E">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+<div id="app">
+  <div class="hero">
+    <p class="hero-eyebrow">Copiloto de viaje · uso privado</p>
+    <h1 class="hero-title">Ruta a China <span class="cn">中国之旅</span></h1>
+    <p class="hero-sub">Fauri &amp; Antonio · 25 ago – 10 sep 2026 · 15 noches</p>
+    <div class="hero-stats">
+      <div class="stat"><b>17</b> jornadas</div>
+      <div class="stat"><b>7</b> etapas</div>
+      <div class="stat"><b id="stat-stops">—</b> paradas</div>
+      <div class="stat"><b id="stat-done">0</b> visitadas</div>
+    </div>
+  </div>
+
+  <!-- VISTA: AGENDA (L0 + L1) -->
+  <div id="agenda-view" class="view active">
+    <div class="route-strip" id="route-strip"></div>
+    <div class="day-nav" id="day-nav"></div>
+    <div class="day-panel" id="day-panel"></div>
+    <p class="footer-note">Toca un círculo para marcar visitado · "+ nota" para notas, gastos o fotos · 🔊 escucha la ficha</p>
+  </div>
+
+  <!-- VISTA: MAPA (L2) -->
+  <div id="map-view" class="view">
+    <div id="map-filters"></div>
+    <div id="map"></div>
+  </div>
+
+  <!-- VISTA: AUDIOGUÍA (L3) -->
+  <div id="audio-view" class="view">
+    <div class="audio-panel">
+      <div class="audio-card">
+        <h3>Audioguía por geolocalización</h3>
+        <p>Al entrar en el radio configurado de una parada, se genera y reproduce su audio automáticamente (voz del dispositivo, funciona sin cobertura). Actívalo al llegar a China o para pruebas de campo.</p>
+        <div class="toggle-row">
+          <span><span class="status-dot" id="geo-status-dot"></span><span id="geo-status-text">Desactivada</span></span>
+          <button class="btn primary" id="geo-toggle">Activar</button>
+        </div>
+      </div>
+      <div class="audio-card">
+        <h3>Radio de disparo</h3>
+        <p>120 m por defecto. Reduce el radio en zonas con paradas muy próximas (Beijing: 4 puntos en pocas manzanas).</p>
+        <input type="range" id="radius-slider" min="30" max="300" step="10">
+        <div style="text-align:right;font-size:12px;color:var(--ink-soft)"><span id="radius-value">120</span> m</div>
+      </div>
+      <div class="audio-card">
+        <h3>Actividad</h3>
+        <div class="log" id="geo-log"><div class="log-entry">Sin actividad todavía.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn active" data-tab="agenda"><span class="icon">🗓️</span>Agenda</button>
+    <button class="nav-btn" data-tab="map"><span class="icon">🗺️</span>Mapa</button>
+    <button class="nav-btn" data-tab="audio"><span class="icon">🔊</span>Audioguía</button>
+  </div>
+</div>
+<div class="save-flag" id="save-flag">Guardado</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="./js/data.js"></script>
+<script src="./js/db.js"></script>
+<script src="./js/geo.js"></script>
+<script src="./js/map.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>

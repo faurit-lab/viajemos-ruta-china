@@ -1,0 +1,16 @@
+{
+  "name": "Viajemos · Copiloto Ruta a China",
+  "short_name": "Viajemos",
+  "description": "Copiloto de viaje para la Ruta a China 2026: agenda, fichas, mapa y audioguía por geolocalización.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F6F1E6",
+  "theme_color": "#B23A2E",
+  "lang": "es",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
