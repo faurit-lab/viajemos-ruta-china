@@ -1,5 +1,9 @@
 // Viajemos · Carga y normalización del dataset
-// Fuente única de verdad: data/master_dataset.json (ver docs/Especificacion_tecnica_para_Codex.md, sección 2)
+// Fuente única de verdad: data/trip.json — un solo viaje activo a la vez.
+// Para reutilizar la app en otro viaje (Italia, Francia...) basta con
+// sustituir este archivo por uno con la misma estructura (ver
+// docs/Especificacion_tecnica_para_Codex.md, sección 2, y el README) —
+// nada del resto del código asume que el viaje es a China.
 
 const CATEGORIES = ['Paisaje', 'Patrimonio', 'Barrio', 'Gastronomía', 'Fotografía', 'Compras', 'Logística', 'Imprescindible'];
 
@@ -12,7 +16,7 @@ let DATASET = null;
 
 async function loadDataset() {
   if (DATASET) return DATASET;
-  const res = await fetch('./data/master_dataset.json');
+  const res = await fetch('./data/trip.json');
   const raw = await res.json();
 
   // Asigna id secuencial estable de respaldo si falta, y precalcula la etapa efectiva.
@@ -117,4 +121,10 @@ function escapeHtml(str) {
 function formatDateShort(iso) {
   const [, m, d] = iso.split('-');
   return `${d}/${m}`;
+}
+
+const MONTH_NAMES_ES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+function formatDateLong(iso, withYear) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d} ${MONTH_NAMES_ES[m - 1]}${withYear ? ' ' + y : ''}`;
 }

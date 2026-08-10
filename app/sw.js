@@ -18,7 +18,7 @@ const SHELL_ASSETS = [
   './js/geo.js',
   './js/map.js',
   './js/app.js',
-  './data/master_dataset.json',
+  './data/trip.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',

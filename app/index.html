@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Viajemos · Ruta a China</title>
+<title id="page-title">Viajemos</title>
 <meta name="theme-color" content="#B23A2E">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icons/icon-192.png">
@@ -15,11 +15,11 @@
 <div id="app">
   <div class="hero">
     <p class="hero-eyebrow">Copiloto de viaje · uso privado</p>
-    <h1 class="hero-title">Ruta a China <span class="cn">中国之旅</span></h1>
-    <p class="hero-sub">Fauri &amp; Antonio · 25 ago – 10 sep 2026 · 15 noches</p>
+    <h1 class="hero-title" id="hero-title">Viajemos</h1>
+    <p class="hero-sub" id="hero-sub"></p>
     <div class="hero-stats">
-      <div class="stat"><b>17</b> jornadas</div>
-      <div class="stat"><b>7</b> etapas</div>
+      <div class="stat"><b id="stat-days">—</b> jornadas</div>
+      <div class="stat"><b id="stat-stages">—</b> etapas</div>
       <div class="stat"><b id="stat-stops">—</b> paradas</div>
       <div class="stat"><b id="stat-done">0</b> visitadas</div>
     </div>
@@ -49,7 +49,7 @@
     <div class="audio-panel">
       <div class="audio-card">
         <h3>Audioguía por geolocalización</h3>
-        <p>Al entrar en el radio configurado de una parada, se genera y reproduce su audio automáticamente (voz del dispositivo, funciona sin cobertura). Actívalo al llegar a China o para pruebas de campo.</p>
+        <p>Al entrar en el radio configurado de una parada, se genera y reproduce su audio automáticamente (voz del dispositivo, funciona sin cobertura). Actívalo al llegar a destino o para pruebas de campo.</p>
         <div class="toggle-row">
           <span><span class="status-dot" id="geo-status-dot"></span><span id="geo-status-text">Desactivada</span></span>
           <button class="btn primary" id="geo-toggle">Activar</button>
@@ -57,7 +57,7 @@
       </div>
       <div class="audio-card">
         <h3>Radio de disparo</h3>
-        <p>120 m por defecto. Reduce el radio en zonas con paradas muy próximas (Beijing: 4 puntos en pocas manzanas).</p>
+        <p>120 m por defecto. Reduce el radio en zonas con paradas muy próximas entre sí.</p>
         <input type="range" id="radius-slider" min="30" max="300" step="10">
         <div style="text-align:right;font-size:12px;color:var(--ink-soft)"><span id="radius-value">120</span> m</div>
       </div>

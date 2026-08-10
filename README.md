@@ -1,31 +1,68 @@
-# Viajemos · Copiloto "Ruta a China"
+# Viajemos
+
+Copiloto de viaje: PWA instalable, uso privado, que combina agenda por días,
+fichas de lugares, mapa interactivo, audioguía por geolocalización y
+logística en un solo sitio. **El código (`app/`) es genérico — no es una app
+de China.** El viaje concreto vive entero en `app/data/trip.json`; para
+reutilizarla en otro viaje (Italia, Francia, el que sea) se sustituye ese
+archivo y un par de líneas de branding, sin tocar el resto del código.
 
 Proyecto independiente. No forma parte de Travel-OS/Audioguía.
 
-PWA instalable de uso privado (Fauri & Antonio) que actúa como copiloto durante
-el viaje a China del 25/08 al 10/09/2026: agenda, fichas de lugares, mapa y
-audioguía activada por geolocalización. Consume un dataset ya exportado y
-cerrado desde Notion — no sincroniza en vivo.
+## Cómo reutilizar la app para otro viaje
 
-## Estructura
+Todo el contenido específico de un viaje vive en estos archivos — son los
+únicos que hay que tocar para "instalar" un viaje nuevo:
 
-- `docs/Guion_de_trabajo_app_Ruta_a_China.md` — constitución del proyecto:
-  fases, decisiones cerradas, estado actual.
-- `docs/Especificacion_tecnica_para_Codex.md` — encargo técnico cerrado
-  (Fases 1-4): alcance por capas (L0-L5), arquitectura, criterios de "hecho".
-- `data/master_dataset.json` — dataset único de contenido: 17 días, 77
-  paradas (70 con coordenadas), lugares favoritos no incluidos en el
-  itinerario.
-- `prototype/ruta_china_agenda.html` — prototipo de referencia de la capa L0
-  (interacción/tono visual). No es base de código — usa `window.storage`,
-  exclusivo de claude.ai.
+1. **`app/data/trip.json`** — el contenido: título, viajeros, fechas, etapas,
+   días, paradas. Mismo esquema que el actual (ver sección siguiente).
+2. **`app/manifest.json`** — `name` y `description` (el navegador los lee
+   antes de que cargue el JS, por eso no pueden salir del dataset).
+3. **`app/icons/icon-192.png` y `icon-512.png`** — opcional, si se quiere un
+   icono distinto al genérico actual.
+
+Todo lo demás (agenda, mapa, audioguía, logística, ficha detallada, Service
+Worker) ya lee el título, las fechas, el número de jornadas/etapas y las 77
+paradas directamente del JSON — no hay ningún "Ruta a China" quemado en el
+HTML ni en el JS de `app/`.
+
+### Esquema de `trip.json`
+
+```
+{
+  "proyecto", "app_titulo", "app_titulo_local" (opcional, texto en el idioma
+    local — dejar "" si no aplica),
+  "viajeros": [...], "fechas": { "inicio", "fin", "noches" },
+  "vuelos_internacionales", "etapas": { "0": "...", "1": "...", ... },
+  "dias": [
+    { "date", "dow", "stage", "stage_name", "title", "travel"?, "note"?,
+      "stops": [
+        { "id", "n", "cn"?, "lat"?, "lng"?, "stage"?, "opt"?, "tipo"?,
+          "categoria"?, "prioridad"?, "estado"?, "mejor_momento"?,
+          "notas_extra"?, "audio_texto"?, "geocode_pending"? }
+      ]
+    }
+  ],
+  "lugares_sin_geolocalizar"?, "lugares_favoritos_no_incluidos_en_itinerario"?
+}
+```
+
+Todos los campos de una parada salvo `id` y `n` son opcionales — la app no
+rompe si faltan (ver L1 en la especificación técnica).
+
+## Estructura del repo
+
+- `app/` — la PWA en sí (genérica, ver arriba).
+- `data/master_dataset.json` — dataset **fuente** de este viaje (Ruta a
+  China), el que se edita y desde el que se copia a `app/data/trip.json`.
+- `docs/` — guion de trabajo, especificación técnica, guion de pendientes.
+- `prototype/` — prototipo de referencia de la capa L0, histórico, no es
+  base de código.
 
 ## Punto de restauración
 
 **`v1.0-estable`** (10/08/2026, commit `009a87e`) — versión confirmada por el
-usuario tras probarla en el móvil: L0-L4 funcionando, 76/77 paradas
-geocodificadas, guiones de audio en las 77, etapas clicables, bugs de
-fichas/notas/Service Worker corregidos. Si algo se rompe en adelante:
+usuario tras probarla en el móvil, previa a la genericación del código.
 
 ```bash
 git checkout v1.0-estable -- .
@@ -34,7 +71,7 @@ git checkout v1.0-estable -- .
 o para volver del todo a ese punto: `git reset --hard v1.0-estable`
 (perdería los commits posteriores, usar con cuidado).
 
-## App en producción
+## App en producción (viaje actual: Ruta a China)
 
 **https://faurit-lab.github.io/viajemos-ruta-china/**
 
@@ -44,14 +81,12 @@ localizador de billete del viaje. Desplegado automáticamente en cada push a
 
 ## Estado
 
-Fases 1-4 cerradas. **Fase 5 (ejecución) en curso**, construida directamente
-en `app/` (no por Codex): L0 Agenda, L1 Fichas enriquecidas, L2 Mapa (Leaflet)
-y L3 Audioguía por geolocalización (TTS con Web Speech API) funcionando.
-L4 Logística parcial. L5 Diario sin empezar (previsto para después del viaje).
+L0 Agenda, L1 Fichas enriquecidas, L2 Mapa (Leaflet), L3 Audioguía por
+geolocalización (TTS con Web Speech API) y L4 Logística (parcial) —
+funcionando. L5 Diario sin empezar (previsto para después del viaje).
 
 Geocodificación: 76 de 77 paradas resueltas vía Nominatim/OSM. Solo queda
 `Wulong Village y Tianbo Mansion` (parada opcional) pendiente de verificación
 manual — ver `geocode_note` en `data/master_dataset.json`.
 
-Pendiente: prueba de campo en móvil real (instalar, permisos de
-geolocalización, radio de geofencing) y rediseño visual.
+Pendiente: rediseño visual (aparcado a propósito hasta cerrar lo funcional).

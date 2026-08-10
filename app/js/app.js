@@ -17,9 +17,32 @@ async function boot() {
   selectedDay = dataset.dias.findIndex((d) => d.stops.length > 0);
   if (selectedDay < 0) selectedDay = 0;
 
+  renderHero();
   wireTabs();
   wireAudioView();
   render();
+}
+
+// Cabecera genérica: todo sale del dataset (título, viajeros, fechas,
+// número de jornadas/etapas). Así la app sirve para cualquier viaje sin
+// tocar el HTML — solo hace falta sustituir data/trip.json.
+function renderHero() {
+  const titulo = dataset.app_titulo || dataset.proyecto || 'Viajemos';
+  const tituloLocal = dataset.app_titulo_local || '';
+  document.getElementById('page-title').textContent = `Viajemos · ${titulo}`;
+  document.title = `Viajemos · ${titulo}`;
+  document.getElementById('hero-title').innerHTML =
+    `${escapeHtml(titulo)}${tituloLocal ? ` <span class="cn">${escapeHtml(tituloLocal)}</span>` : ''}`;
+
+  const viajeros = (dataset.viajeros || []).join(' & ');
+  const f = dataset.fechas || {};
+  const rango = f.inicio && f.fin ? `${formatDateLong(f.inicio)} – ${formatDateLong(f.fin, true)}` : '';
+  const noches = f.noches ? `${f.noches} noches` : '';
+  document.getElementById('hero-sub').textContent = [viajeros, rango, noches].filter(Boolean).join(' · ');
+
+  document.getElementById('stat-days').textContent = dataset.dias.length;
+  const stageCount = Object.keys(dataset.etapas || {}).filter((k) => k !== '0').length;
+  document.getElementById('stat-stages').textContent = stageCount;
 }
 
 function persist() {

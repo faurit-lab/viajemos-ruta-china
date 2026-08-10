@@ -1,5 +1,7 @@
 {
   "proyecto": "Copiloto Ruta a China",
+  "app_titulo": "Ruta a China",
+  "app_titulo_local": "中国之旅",
   "viajeros": [
     "Fauri Tamayo Camacho",
     "Antonio Cano Roldán"
