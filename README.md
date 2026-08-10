@@ -20,6 +20,20 @@ cerrado desde Notion — no sincroniza en vivo.
   (interacción/tono visual). No es base de código — usa `window.storage`,
   exclusivo de claude.ai.
 
+## Punto de restauración
+
+**`v1.0-estable`** (10/08/2026, commit `009a87e`) — versión confirmada por el
+usuario tras probarla en el móvil: L0-L4 funcionando, 76/77 paradas
+geocodificadas, guiones de audio en las 77, etapas clicables, bugs de
+fichas/notas/Service Worker corregidos. Si algo se rompe en adelante:
+
+```bash
+git checkout v1.0-estable -- .
+```
+
+o para volver del todo a ese punto: `git reset --hard v1.0-estable`
+(perdería los commits posteriores, usar con cuidado).
+
 ## App en producción
 
 **https://faurit-lab.github.io/viajemos-ruta-china/**
