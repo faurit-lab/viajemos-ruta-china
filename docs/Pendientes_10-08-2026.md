@@ -43,6 +43,22 @@ refleja lo que YA está en el dataset (no se inventaron hoteles):
 Pospuesto a después del viaje según la spec original — no es prioritario
 ahora. Cuando toque: registro de gasto real, fotos, valoración por parada.
 
+## 3bis · Guiones de audio — ✅ hecho (10/08, sesión 19:00)
+Se detectó que el audio de 50 de las 77 paradas solo decía el nombre (no
+había más texto en el dataset). Se redactó un guion narrativo de 4-6 frases
+por parada (campo `audio_texto`), con conocimiento general de cada lugar
+(son destinos turísticos documentados), y `buildAudioScript()` en `geo.js`
+ahora usa ese campo. El texto también se puede leer en la ficha detallada,
+no solo escuchar.
+
+**⚠️ Importante — revisar antes de dar por bueno:** el contenido histórico/
+cultural lo redacté yo con conocimiento general, no viene de una fuente
+verificada del viaje. Los datos duros y cifras concretas (alturas, fechas,
+metros) conviene contrastarlos antes de confiar en ellos al 100% durante
+el viaje — especialmente si algo suena muy específico. Nada de esto afecta
+a la logística real (horarios, reservas, coordenadas), que sigue viniendo
+solo del dataset original.
+
 ## 5 · Rediseño visual (al final, como se acordó)
 - [ ] Definir dirección visual real — hoy hereda paleta/tono del prototipo
       de referencia (papel/sello/jade), útil como base pero "sin diseñar".
