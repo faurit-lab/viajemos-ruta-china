@@ -60,6 +60,28 @@ el viaje — especialmente si algo suena muy específico. Nada de esto afecta
 a la logística real (horarios, reservas, coordenadas), que sigue viniendo
 solo del dataset original.
 
+## 4bis · Pantalla "Hoy" — ✅ hecho (10/08, sesión noche)
+Fusionado el contenido de una propuesta de Claude Design (`hoy-claro-standalone.html`,
+compartida por el usuario) con nuestro sistema visual "Manifiesto de viaje" —
+se descartó la paleta crema/terracota del original por ser el look genérico
+que ya evitamos antes. Nueva pestaña "☀️ Hoy", primera en la navegación:
+- Próxima parada (por orden, no hay horas exactas por parada todavía),
+  progreso del día, botón directo a marcar visitado/ver ficha.
+- Lista "Después" con el resto de paradas pendientes del día.
+- "El día en cifras": nº de paradas (fijas/flexibles/opcionales), km en
+  línea recta entre paradas consecutivas (Haversine real, no estimación de
+  ruta a pie) y minutos de audioguía (derivado de la longitud real de los
+  `audio_texto`).
+- Alojamiento vigente + próximo traslado con cuenta en días.
+- **Alertas automáticas**, derivadas de datos existentes (paradas opcionales/
+  candidatas, notas con palabras clave como "pendiente"/"apertura") — no se
+  inventa ningún texto nuevo.
+
+Explícitamente fuera por ahora (según lo decidido con el usuario):
+- Tiempo meteorológico en vivo — servicio externo, se deja para el final.
+- Horarios de apertura, cómo llegar en transporte, gasto previsto — necesitan
+  campos nuevos en el dataset que el usuario tiene que ir dando.
+
 ## 5 · Rediseño visual (al final, como se acordó)
 - [ ] Definir dirección visual real — hoy hereda paleta/tono del prototipo
       de referencia (papel/sello/jade), útil como base pero "sin diseñar".
