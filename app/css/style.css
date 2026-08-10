@@ -122,6 +122,8 @@ body {
 .sd-meta { margin-bottom: 10px; }
 .sd-row { font-size: 13.5px; color: var(--ink); line-height: 1.5; margin-bottom: 8px; }
 .sd-opt { color: var(--seal); font-style: italic; }
+.sd-audio-script { background: var(--paper-2); border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.6; color: var(--ink); margin: 10px 0; }
+.sd-audio-script .logi-label { margin-top: 0; }
 .sd-note-block { margin: 14px 0; display: flex; flex-direction: column; gap: 8px; }
 .sd-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
 .sd-nav { display: flex; gap: 8px; margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }

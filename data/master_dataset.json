@@ -63,7 +63,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Estáis en el Templo de los Lamas, Yonghegong, uno de los templos budistas tibetanos más importantes fuera del Tíbet. Fue primero la residencia de un príncipe manchú y se convirtió en templo imperial en el siglo dieciocho, cuando ese príncipe llegó a ser el emperador Yongzheng. Sus pabellones se suceden en patios cada vez más elevados, y en el último se guarda una estatua de Buda de más de dieciocho metros tallada en un solo tronco de sándalo blanco. El aire huele a incienso desde la entrada, y no es raro ver a fieles locales rezando junto a los turistas."
         },
         {
           "n": "Confucio y Colegio Imperial",
@@ -75,7 +76,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Templo de Confucio y el Colegio Imperial forman el segundo complejo confuciano más grande de China, después del de Qufu. Aquí se examinaba y formaba a los futuros funcionarios imperiales durante la dinastía Yuan, hace más de setecientos años. El patio está lleno de estelas de piedra con los nombres de quienes aprobaron los exámenes imperiales, y ciprés centenarios que, según la leyenda, señalaban a los corruptos al caerles una rama encima. Es un rincón mucho más tranquilo que el resto de la ciudad."
         },
         {
           "n": "Wudaoying Hutong",
@@ -90,7 +92,8 @@
           "mejor_momento": "Tarde del 26/08.",
           "notas_extra": "Paseo tranquilo y primera inmersión en los hutongs.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Wudaoying Hutong es uno de los callejones tradicionales de Pekín que mejor ha sabido reinventarse sin perder su carácter: casas bajas de ladrillo gris reconvertidas en cafés, tiendas de diseño y pequeños talleres. Es un paseo tranquilo, ideal como primera inmersión en el mundo de los hutongs antes de que la ciudad se vuelva más intensa. Vuestra visita está pensada para la tarde de hoy, sin prisa."
         },
         {
           "n": "Gui Street",
@@ -105,7 +108,8 @@
           "mejor_momento": "Cena del 26/08.",
           "notas_extra": "Cierre flexible del primer día, según energía.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Gui Street, la 'calle de los fantasmas', es una de las arterias gastronómicas más animadas y ruidosas de Pekín, abierta hasta la madrugada y especializada en cangrejo picante y cocina callejera intensa. Es un cierre flexible perfecto para el primer día de viaje: si queda energía, una cena larga entre luces rojas y humo de wok; si no, basta con pasear un rato y sentir el ambiente."
         }
       ],
       "stage_name": "Beijing"
@@ -128,7 +132,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Las Torres del Tambor y la Campana marcaban el pulso oficial de Pekín desde hace más de setecientos años: el tambor anunciaba el amanecer y el atardecer, la campana marcaba las horas de la noche. Subir los empinados escalones de la Torre del Tambor merece la pena por la vista sobre los tejados grises de los hutongs, un contraste total con los rascacielos del resto de la ciudad. Antes de los relojes modernos, toda la vida de la capital se organizaba alrededor de estos dos edificios."
         },
         {
           "n": "Yandai Xiejie",
@@ -140,7 +145,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Yandai Xiejie es una callejuela curva y estrecha, de las pocas que conserva ese trazado antiguo típico de los hutongs de antes de la planificación en cuadrícula. Su nombre significa 'callejón de la pipa de tabaco', por las tiendas que vendían pipas a los oficiales que salían de la Ciudad Prohibida. Hoy está llena de pequeñas tiendas de artesanía, té y recuerdos, y conecta directamente con el lago Shichahai."
         },
         {
           "n": "Yinding Bridge",
@@ -155,7 +161,8 @@
           "mejor_momento": "Final de la mañana del 27/08.",
           "notas_extra": "Paseo junto al agua antes de regresar al hotel.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Puente Yinding, 'puente del lingote de plata', cruza el estrecho canal que separa los lagos Qianhai y Houhai, y desde su punto más alto se puede ver, en días claros, hasta las montañas al oeste de la ciudad. Es un buen cierre de mañana antes de volver hacia el hotel: un paseo corto junto al agua, con las casas tradicionales reflejándose en la superficie."
         },
         {
           "n": "Qianhai y Shichahai",
@@ -167,7 +174,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Qianhai y Shichahai son un conjunto de lagos artificiales excavados hace más de setecientos años para el abastecimiento de agua y el transporte de grano hacia el Pekín imperial. Hoy sus orillas están llenas de casas tradicionales con patio, bares con terraza y gente practicando taichí o pescando al amanecer. Es una de las pocas zonas de la ciudad donde todavía se respira el ritmo lento de la vieja Pekín."
         },
         {
           "n": "Zhangjiajie Hehua Airport",
@@ -180,7 +188,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Aeropuerto Hehua de Zhangjiajie es la puerta de entrada a una de las regiones de montaña más espectaculares de China, la que inspiró los paisajes flotantes de la película Avatar. Desde aquí el traslado hacia el parque nacional recorre un valle cada vez más estrecho, con las primeras torres de arenisca ya asomando entre la niebla."
         },
         {
           "n": "Orange Hotel Zhangjiajie",
@@ -195,7 +204,8 @@
           "stage": 1,
           "categoria": null,
           "prioridad": null,
-          "estado": null
+          "estado": null,
+          "audio_texto": "Este es vuestro alojamiento en Zhangjiajie, a un paso de la estación del teleférico de Tianmen Mountain. Buena base para descansar antes de un día largo de montaña: la entrada a Tianmen Mountain suele empezar temprano para evitar aglomeraciones."
         }
       ],
       "stage_name": "Beijing"
@@ -221,7 +231,8 @@
           "estado": "Diseñado",
           "mejor_momento": "Primera franja del 28/08.",
           "notas_extra": "La entrada y franja horaria están pendientes de apertura.",
-          "mapa_notion_url": null
+          "mapa_notion_url": null,
+          "audio_texto": "Esta es la estación inferior del teleférico de Tianmen Mountain, uno de los trayectos en telecabina más largos del mundo, con más de siete kilómetros de recorrido hasta la cima. La entrada y la franja horaria concreta dependen de la apertura del parque ese día, así que conviene revisarlo con margen: la idea es subir a primera hora para aprovechar mejor la luz y evitar aglomeraciones."
         },
         {
           "n": "Tianmen Mountain",
@@ -236,7 +247,8 @@
           "mejor_momento": "Primera franja del 28/08.",
           "notas_extra": "La entrada y franja horaria están pendientes de apertura.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Tianmen Mountain, conocida como la 'Puerta del Cielo', es la montaña sagrada que da nombre a toda la región de Zhangjiajie. La combinación de cueva natural, pasarelas de cristal y vistas de vértigo la convierte en uno de los días más intensos de toda la ruta. Como con la estación del teleférico, la entrada y el horario dependen de la apertura del parque, así que la primera franja del día suele ser la mejor opción."
         },
         {
           "n": "Pasarelas de Tianmen y Panlong Cliff",
@@ -248,7 +260,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Las pasarelas de cristal de Tianmen Mountain cuelgan literalmente del borde del acantilado, a más de mil cuatrocientos metros de altura. Caminar sobre el vacío con solo unos centímetros de vidrio bajo los pies es una de las experiencias que más vértigo genera de toda la ruta, incluso para quien no suele tener miedo a las alturas. Panlong Cliff añade otro tramo igual de expuesto, con vistas que se pierden entre las nubes."
         },
         {
           "n": "Tianmen Cave",
@@ -260,7 +273,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Cueva del Cielo de Tianmen es un arco natural gigantesco, de más de ciento treinta metros de altura, perforado en la roca de la montaña. Se llega tras subir 999 escalones tallados en la piedra —un número elegido a propósito, porque el nueve es un número de buena fortuna en la cultura china—. Es el único lugar del mundo donde aviones acrobáticos han volado a través de un arco de piedra natural, una hazaña que se hizo célebre en un campeonato internacional de vuelo."
         },
         {
           "n": "Shenzhoujie International Hotel",
@@ -275,7 +289,8 @@
           "stage": 2,
           "categoria": null,
           "prioridad": null,
-          "estado": null
+          "estado": null,
+          "audio_texto": "Este es vuestro alojamiento junto a la puerta emblemática de la zona de Wulingyuan, a poca distancia de los accesos principales al parque nacional. Buena base para los días de circuito por Yuanjiajie y Yangjiajie."
         }
       ],
       "stage_name": "Zhangjiajie / Wulingyuan"
@@ -297,7 +312,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La puerta este de Wujiayu es uno de los accesos principales al parque nacional de Wulingyuan, la zona protegida donde se concentran los picos de arenisca que hicieron famosa a Zhangjiajie. A partir de aquí empieza el recorrido por senderos y ascensores panorámicos entre miles de columnas de piedra cubiertas de vegetación."
         },
         {
           "n": "Ascensor Bailong",
@@ -309,7 +325,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Ascensor Bailong es el ascensor panorámico al aire libre más alto del mundo, con ciento setenta y un metros de recorrido vertical tallados directamente en la ladera de un acantilado de granito. Subir en menos de dos minutos ahorra horas de caminata y ofrece una vista que se abre de golpe sobre el bosque de pilares de piedra. Fue construido a principios de los años dos mil y sigue siendo una proeza de ingeniería que sorprende a quien lo ve por primera vez."
         },
         {
           "n": "Yuanjiajie",
@@ -324,7 +341,8 @@
           "mejor_momento": "Con la mejor ventana de visibilidad.",
           "notas_extra": "Núcleo del paisaje Avatar.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Yuanjiajie es el núcleo del paisaje que inspiró las montañas flotantes de Avatar: cientos de columnas de arenisca cubiertas de vegetación, separadas por profundos valles de niebla. Conviene esperar a la mejor ventana de visibilidad posible, porque este lugar cambia radicalmente según haya niebla baja, sol directo o nubes a media altura — y las tres versiones son igual de espectaculares a su manera."
         },
         {
           "n": "Enchanting Terrace",
@@ -336,7 +354,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Terraza del Hechizo, Mihuntai, debe su nombre a la niebla que aparece y desaparece entre los pilares de piedra, dando la sensación de estar perdiendo el sentido de la orientación. Es uno de los miradores clásicos de Yuanjiajie, con vistas encadenadas de columnas de arenisca que parecen flotar cuando las nubes bajan hasta media altura."
         },
         {
           "n": "Hallelujah / Avatar Mountain",
@@ -348,7 +367,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Montaña Aleluya, rebautizada así después de que sus formaciones inspiraran las montañas flotantes de la película Avatar de James Cameron, es probablemente el rincón más fotografiado de todo Zhangjiajie. El pilar central, conocido como la Columna del Cielo y la Tierra, se eleva solo, separado del resto, como si desafiara la gravedad. Antes de la película ya era un lugar sagrado para la cultura local; después se convirtió en un icono mundial."
         },
         {
           "n": "First Bridge Under Heaven",
@@ -363,7 +383,8 @@
           "mejor_momento": "Continuación natural de Yuanjiajie.",
           "notas_extra": "Se integra antes del traslado interno a Yangjiajie.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Primer Puente Bajo el Cielo es un arco de piedra natural que conecta dos picos a gran altura, formado enteramente por la erosión, sin intervención humana. Es la continuación lógica del recorrido por Yuanjiajie, y se integra en el camino justo antes de cruzar hacia la zona de Yangjiajie."
         },
         {
           "n": "Yangjiajie",
@@ -378,7 +399,8 @@
           "mejor_momento": "Tarde del 29/08.",
           "notas_extra": "Natural Great Wall y descenso por cableway según disponibilidad.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Yangjiajie es una zona del parque con menos aglomeración que Yuanjiajie, aunque igual de espectacular, con la llamada Gran Muralla Natural como protagonista. Según cómo vaya el día y la disponibilidad del teleférico, el descenso puede hacerse en cabina o caminando — la tarde es el momento previsto para esta parte del circuito."
         },
         {
           "n": "Natural Great Wall",
@@ -390,7 +412,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Gran Muralla Natural de Yangjiajie es una cresta larga y estrecha de piedra que serpentea entre precipicios, y que a simple vista recuerda a una muralla construida por manos humanas. A diferencia de otras zonas más concurridas del parque, aquí suele haber menos gente, lo que deja más espacio para apreciar el silencio de la montaña."
         },
         {
           "n": "Wulong Village y Tianbo Mansion",
@@ -404,7 +427,8 @@
           "stage": 2,
           "categoria": null,
           "prioridad": null,
-          "estado": null
+          "estado": null,
+          "audio_texto": "Wulong Village y el Pabellón Tianbo son un rincón menos transitado del parque, con menos aglomeración que las zonas más famosas de Yuanjiajie. Es una parada opcional, ideal si sobra tiempo y energía tras el circuito principal."
         }
       ],
       "stage_name": "Zhangjiajie / Wulingyuan"
@@ -429,7 +453,8 @@
           "mejor_momento": "Alternativa con niebla baja o lluvia ligera.",
           "notas_extra": "Plan flexible para proteger el bloque ante mala visibilidad.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Golden Whip Stream es un sendero llano junto a un arroyo cristalino, entre paredes de piedra cubiertas de vegetación — probablemente el paseo más relajante de todo el parque. Está pensado como plan alternativo si la niebla baja o cae lluvia ligera: aquí el mal tiempo no estropea la experiencia, porque el protagonismo es del agua y el bosque, no de las vistas lejanas."
         },
         {
           "n": "Water Winding Four Gates",
@@ -441,7 +466,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Shuiraosimen, o 'agua que rodea las cuatro puertas', es uno de los puntos de acceso más tranquilos al valle de Zhangjiajie, con el río Jinbian discurriendo entre paredes de roca cubiertas de vegetación. Es un buen lugar para tomar el pulso al parque antes de subir a las zonas más altas."
         },
         {
           "n": "Grand Canyon y Glass Bridge",
@@ -454,7 +480,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Gran Cañón de Zhangjiajie y su puente de cristal, que en su día fue el puente peatonal de cristal más largo y alto del mundo, ofrecen una perspectiva distinta a los picos de arenisca del parque principal: aquí el protagonista es el propio cañón, con casi trescientos metros de caída bajo los pies de quienes se atreven a cruzar."
         },
         {
           "n": "Baofeng Lake",
@@ -470,7 +497,8 @@
           "mejor_momento": "Tarde del 30/08.",
           "notas_extra": "Plan más tranquilo y útil con visibilidad irregular.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Lago Baofeng es un lago de montaña de aguas muy tranquilas, al que solo se puede acceder navegando en barca, con guías que cantan canciones tradicionales de los pueblos tujia y miao durante el trayecto. Es un plan más pausado, perfecto para una tarde con visibilidad irregular en el resto del parque."
         }
       ],
       "stage_name": "Zhangjiajie / Wulingyuan"
@@ -494,7 +522,8 @@
           "mejor_momento": "Mañana del 31/08 con buena visibilidad.",
           "notas_extra": "Se combina con Helong Park y salida hacia Fenghuang.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Tianzi Mountain, la 'Montaña del Hijo del Cielo', ofrece algunas de las vistas panorámicas más amplias de toda la reserva de Wulingyuan. Se combina con el cercano Parque Helong antes de continuar hacia Fenghuang, y conviene aprovechar la mañana, cuando la visibilidad suele ser mejor antes de que suba la humedad del día."
         },
         {
           "n": "Helong Park",
@@ -506,7 +535,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Parque Helong lleva el nombre del general Helong, nacido en esta región y figura clave del Ejército Rojo durante la revolución china. El parque combina un monumento a su memoria con senderos tranquilos, y sirve de puerta de entrada habitual al circuito de Tianzi Mountain."
         },
         {
           "n": "Imperial Brush Peak",
@@ -521,7 +551,8 @@
           "mejor_momento": "Circuito de Tianzi Mountain.",
           "notas_extra": "Punto fotográfico prioritario del 31/08.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Pico del Pincel Imperial, Yubifeng, son varias columnas de piedra estrechas y paralelas que recuerdan a pinceles de caligrafía clavados en el suelo. Es uno de los puntos fotográficos más buscados de todo el circuito de Tianzi Mountain, y merece dedicarle un rato extra si la luz acompaña."
         },
         {
           "n": "Fairy Dispersing Flowers",
@@ -533,7 +564,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Xiannu Sanhua, 'la diosa esparciendo flores', es una formación rocosa que la tradición local interpreta como la silueta de una diosa arrojando pétalos sobre el valle. Forma parte del recorrido panorámico de Tianzi Mountain, uno de los miradores más altos de toda la reserva de Wulingyuan."
         },
         {
           "n": "Ten-Mile Gallery",
@@ -548,7 +580,8 @@
           "mejor_momento": "Descenso final del 31/08.",
           "notas_extra": "Cierre del parque antes del traslado a la estación.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Galería de las Diez Millas es un paseo llano de varios kilómetros entre picos de piedra que reciben nombres poéticos según la forma que evocan: el mono contemplando el mar, la anciana llevando el fardo. Es el cierre natural del parque antes del traslado hacia la estación, así que puede caminarse con calma sabiendo que es el último tramo de la jornada."
         },
         {
           "n": "Fenghuang y el río Tuojiang (noche)",
@@ -563,7 +596,8 @@
           "mejor_momento": "Noche del 31/08 y mañana del 01/09.",
           "notas_extra": "Eje visual y emocional de la etapa.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Fenghuang y el río Tuojiang, vistos ya de noche, son probablemente la imagen que mejor resume toda esta etapa del viaje: casas de madera sobre pilotes, farolillos encendidos y el agua devolviendo cada luz duplicada. Es el eje visual y emocional de todo el bloque de Fenghuang, y por eso conviene volver a verlo también a la mañana siguiente, con una luz completamente distinta."
         },
         {
           "n": "North Gate y Stepping Stones",
@@ -575,7 +609,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Puerta Norte y los pasos de piedra sobre el río Tuojiang son una de las estampas más reconocibles de Fenghuang: bloques de piedra dispuestos como escalones para cruzar el agua a pie, con las casas de madera de la ciudad vieja como telón de fondo. De noche, cuando se encienden las luces de los edificios sobre el río, el efecto es aún más bonito."
         },
         {
           "n": "Hongqiao Wind and Rain Building",
@@ -587,7 +622,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Pabellón del Viento y la Lluvia de Hongqiao es un puente cubierto de madera, típico de la arquitectura miao y tujia de esta región de Hunan, que además funciona como mirador sobre el río Tuojiang y el casco antiguo de Fenghuang. Cruzar por dentro, protegido del sol o de la lluvia bajo su tejado de tejas, es una experiencia distinta a cualquier otro puente de piedra del recorrido."
         },
         {
           "n": "Casas sobre pilotes de Huilongge",
@@ -599,7 +635,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Las casas sobre pilotes de Huilongge son un ejemplo clásico de la arquitectura tradicional diaojiaolou, construida elevada sobre el agua para adaptarse a las crecidas del río Tuojiang. Estas construcciones de madera, con más de cien años algunas de ellas, todavía se usan como viviendas y pequeños negocios familiares."
         },
         {
           "n": "Wanming Pagoda",
@@ -611,7 +648,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Pagoda Wanming se alza junto al río Tuojiang como uno de los puntos más altos desde los que contemplar el conjunto de Fenghuang: los tejados grises, el agua verde esmeralda y las montañas alrededor. Es un buen lugar para rematar el paseo por el casco histórico antes de continuar viaje."
         }
       ],
       "stage_name": "Zhangjiajie / Wulingyuan"
@@ -632,7 +670,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Las puertas y la muralla de Fenghuang son los restos de las fortificaciones que protegían la ciudad durante la dinastía Qing, cuando esta era una guarnición fronteriza frente a los pueblos miao de las montañas. Cruzar bajo el arco de piedra es la forma tradicional de entrar en el casco histórico, con el río Tuojiang extendiéndose justo al otro lado."
         },
         {
           "n": "East Main Street",
@@ -644,7 +683,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La calle Dongzheng es una de las arterias comerciales más animadas del casco antiguo de Fenghuang, flanqueada por casas de madera oscura y tiendas de artesanía local, batik y plata trabajada a mano por los pueblos miao y tujia de la región."
         },
         {
           "n": "Casa natal de Shen Congwen",
@@ -656,7 +696,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Esta es la casa natal de Shen Congwen, uno de los escritores chinos más admirados del siglo veinte, autor de la célebre novela corta 'Frontera fronteriza', ambientada precisamente en Fenghuang. La casa conserva el ambiente doméstico de una familia acomodada de finales del siglo diecinueve, y es parada obligada para entender por qué esta pequeña ciudad ha inspirado a tantos artistas."
         },
         {
           "n": "Jiefangbei (llegada Chongqing)",
@@ -671,7 +712,8 @@
           "mejor_momento": "Tarde y noche.",
           "notas_extra": "Centro operativo preferente para alojamiento y gastronomía.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Jiefangbei, el Monumento a la Liberación, es el centro histórico y comercial de Chongqing, construido originalmente en los años cuarenta y hoy rodeado de rascacielos y pantallas gigantes. Es la zona operativa preferente para estos días: alojamiento, restaurantes y vida nocturna a un paso de todo."
         },
         {
           "n": "Sabores de Chongqing",
@@ -685,7 +727,8 @@
           "id": "s043",
           "categoria": null,
           "prioridad": null,
-          "estado": null
+          "estado": null,
+          "audio_texto": "Los sabores de Chongqing son parte esencial de la experiencia de la ciudad: una cocina picante y directa, heredera de la tradición sichuanesa pero con personalidad propia, donde el hot pot es el rey indiscutible. No hace falta un restaurante concreto para probarlo bien: casi cualquier local lleno de gente local un jueves por la noche es una apuesta segura."
         }
       ],
       "stage_name": "Fenghuang"
@@ -709,7 +752,8 @@
           "mejor_momento": "Mañana del 02/09.",
           "notas_extra": "Mirador oficial del metro atravesando el edificio.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La estación de Liziba es el mirador no oficial más famoso de Chongqing: aquí el metro atraviesa literalmente un edificio de viviendas de diecinueve plantas, pasando por la sexta y la octava planta. Es una imagen que resume bien el carácter de esta ciudad construida en vertical sobre las montañas, y merece la pena verla por la mañana, cuando hay menos gente en el mirador."
         },
         {
           "n": "Eling Park y Liangjiang Pavilion",
@@ -724,7 +768,8 @@
           "mejor_momento": "Mañana o última luz.",
           "notas_extra": "Miradores urbanos y conexión con Second Factory.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Parque Eling y el Pabellón Liangjiang ofrecen algunas de las mejores vistas urbanas de Chongqing, con la confluencia de los dos grandes ríos de fondo. Conecta directamente con la Second Factory, así que ambos puntos suelen visitarse seguidos, aprovechando la mañana o la última luz del día para las fotos."
         },
         {
           "n": "Eling Second Factory",
@@ -739,7 +784,8 @@
           "mejor_momento": "Después de Eling Park.",
           "notas_extra": "Arquitectura industrial reconvertida y vistas urbanas.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Second Factory de Eling es una antigua fábrica industrial reconvertida en espacio cultural, con cafés, estudios de diseño y arte urbano sobre los muros de ladrillo original. Es la continuación natural después del Parque Eling, y un buen contraste entre la Chongqing histórica y la más creativa."
         },
         {
           "n": "Luohan Temple",
@@ -754,7 +800,8 @@
           "mejor_momento": "Tarde del 02/09.",
           "notas_extra": "Contraste histórico en pleno centro vertical.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Templo Luohan es un templo budista activo de más de mil años de historia, con cientos de estatuas de arhats talladas en la roca, y sorprende por estar literalmente encajonado entre los rascacielos del centro. Ese contraste entre lo histórico y lo hiperurbano es exactamente lo que lo hace especial por la tarde, cuando el humo de incienso se mezcla con el ruido de la ciudad de fuera."
         },
         {
           "n": "Raffles City y Chaotianmen",
@@ -766,7 +813,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Raffles City Chongqing es un complejo de rascacielos diseñado por el estudio del arquitecto Moshe Safdie, coronado por una estructura horizontal que conecta varias torres a gran altura, como un puente suspendido sobre la ciudad. Justo al lado, Chaotianmen fue históricamente la puerta principal de la ciudad amurallada y el muelle donde confluían las mercancías que llegaban por el río."
         },
         {
           "n": "Confluencia Yangtsé–Jialing",
@@ -778,7 +826,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Aquí se unen el río Yangtsé y el río Jialing, el punto exacto que dio origen a Chongqing como ciudad y puerto fluvial. El color del agua de cada río es distinto, y en días claros se puede apreciar cómo ambas corrientes tardan un tramo en mezclarse del todo antes de continuar juntas hacia el este."
         },
         {
           "n": "Qiansimen y Hongya Cave",
@@ -793,7 +842,8 @@
           "mejor_momento": "Noche.",
           "notas_extra": "Ver desde el frente del río; posible primera toma de contacto al llegar.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Qiansimen y la Cueva Hongya son, de noche, una de las estampas más espectaculares de Chongqing: Hongya Cave es un complejo escalonado de arquitectura tradicional sobre pilotes, iluminado como si fuera una escena de anime, colgado sobre la orilla del río. Verlo desde el frente del agua puede ser vuestra primera toma de contacto con la ciudad, o el cierre nocturno perfecto del día."
         }
       ],
       "stage_name": "Chongqing"
@@ -816,7 +866,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Yangshuo y la aldea de Jima marcan la entrada a la región de karst más famosa de China: cientos de picos calizos puntiagudos que emergen de la llanura como si fueran dientes de dragón, formados a lo largo de millones de años por la erosión del agua sobre roca caliza."
         }
       ],
       "stage_name": "Yangshuo"
@@ -837,7 +888,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El paisaje kárstico de Guilin es uno de los más fotografiados del mundo, y con razón: estas montañas de piedra caliza, moldeadas por el agua durante millones de años, han inspirado la pintura tradicional china durante más de mil años. Verlas en persona, envueltas en la neblina de la mañana, explica por qué siguen apareciendo en tantos poemas y cuadros."
         },
         {
           "n": "Río Yulong",
@@ -852,7 +904,8 @@
           "mejor_momento": "Mañana del 04/09.",
           "notas_extra": "Balsa, paseo junto al río o bicicleta según calor y energía.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El río Yulong es el hermano más tranquilo del río Li, con menos tráfico de barcas y un paisaje igual de espectacular de picos kársticos. Se puede recorrer en balsa de bambú, paseando por la orilla o en bicicleta, según apetezca según el calor y la energía del día — está pensado para la mañana, cuando las temperaturas son más llevaderas."
         },
         {
           "n": "Paisaje rural del valle del Yulong",
@@ -864,7 +917,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El paisaje rural del valle del río Yulong combina los picos de karst con arrozales, búfalos de agua y pequeños pueblos de pescadores que apenas han cambiado en generaciones. Es el contrapunto tranquilo al ajetreo de Yangshuo, ideal para pasear despacio o en bicicleta."
         },
         {
           "n": "Balsas de bambú del Yulong",
@@ -877,7 +931,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Las balsas de bambú del Yulong son la forma tradicional de navegar este río: plataformas planas impulsadas con una pértiga por un guía local, deslizándose despacio entre los picos de karst. Es una parada opcional, pensada para quien quiera vivir el río desde el agua en vez de solo desde la orilla."
         },
         {
           "n": "Jiuxian Ancient Village",
@@ -889,7 +944,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La aldea antigua de Jiuxian conserva casas de piedra y calles empedradas de varios siglos de antigüedad, prácticamente sin el turismo masivo que ha transformado otras zonas cercanas. Sus habitantes siguen cultivando los campos alrededor, con los picos de karst como telón de fondo constante."
         }
       ],
       "stage_name": "Yangshuo"
@@ -913,7 +969,8 @@
           "mejor_momento": "Mañana del 05/09 si el traslado lo permite.",
           "notas_extra": "Punto de acceso al paisaje del río Li.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Xingping es un pueblo antiguo que sirve de puerta de entrada al tramo más fotogénico del río Li, con calles empedradas de varios siglos y casas de la dinastía Ming todavía en pie. Si el traslado lo permite, la mañana es el mejor momento para visitarlo, antes de que lleguen los grupos grandes de turistas."
         },
         {
           "n": "Río Li y billete de 20 yuanes",
@@ -925,7 +982,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Este tramo del río Li es, probablemente sin saberlo, uno de los paisajes más vistos del mundo: es la imagen que aparece impresa en el billete de veinte yuanes chinos. Verlo en persona, con los picos reflejados en el agua tranquila, es uno de esos momentos en los que la realidad supera a la fotografía."
         },
         {
           "n": "Tianhe Road (llegada Guangzhou)",
@@ -937,7 +995,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Tianhe Road marca la llegada a Guangzhou, una de las ciudades más antiguas y comercialmente más activas del sur de China, con más de dos mil años de historia como puerto de intercambio con el resto del mundo. El paisaje urbano cambia radicalmente respecto a las montañas y ciudades pequeñas de los últimos días."
         }
       ],
       "stage_name": "Yangshuo"
@@ -958,7 +1017,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El distrito comercial de Zhanxi es uno de los mayores centros mayoristas de moda y textil de toda China, con edificios enteros dedicados a un solo tipo de producto. Es un buen lugar para observar cómo funciona de verdad el comercio al por mayor que abastece a tiendas de medio mundo."
         },
         {
           "n": "Baima Clothing Market",
@@ -970,7 +1030,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El mercado Baima de ropa es uno de los epicentros de la industria textil de Guangzhou, con miles de puestos mayoristas repartidos en varias plantas. Aunque está pensado sobre todo para compradores profesionales, pasear por sus pasillos da una idea real de la escala de la industria de la moda china."
         },
         {
           "n": "Buyun Tiandi Footwear World",
@@ -982,7 +1043,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Buyun Tiandi es el mundo del calzado de Guangzhou: plantas y plantas de tiendas mayoristas especializadas en zapatos, desde deportivas hasta calzado de vestir, que abastecen a distribuidores de toda la región."
         },
         {
           "n": "Zhujiang New Town",
@@ -997,7 +1059,8 @@
           "mejor_momento": "Tarde y noche.",
           "notas_extra": "K11, GT Land, Mall of the World y Parc Central.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Zhujiang New Town es el distrito financiero y comercial más nuevo de Guangzhou, con centros comerciales como K11, GT Land o Parc Central, y una arquitectura futurista que contrasta con el resto de la ciudad. Está pensado para la tarde y la noche, cuando los rascacielos se iluminan y el ambiente se anima."
         },
         {
           "n": "Río Perla y Canton Tower",
@@ -1012,7 +1075,8 @@
           "mejor_momento": "Hora azul y noche.",
           "notas_extra": "Cierre visual del bloque de Guangzhou.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El río Perla y la Torre de Cantón son el cierre visual perfecto del bloque de Guangzhou: la torre, con su silueta curvada tan característica, se ilumina al anochecer con espectáculos de luz que se reflejan en el agua. La hora azul, justo después de la puesta de sol, es el mejor momento para verla."
         }
       ],
       "stage_name": "Guangzhou"
@@ -1034,7 +1098,8 @@
           "stage": 6,
           "categoria": null,
           "prioridad": null,
-          "estado": null
+          "estado": null,
+          "audio_texto": "El dim sum cantonés es una tradición que se remonta a las antiguas casas de té de la ruta de la seda, donde los viajeros paraban a descansar y tomar algo ligero. Hoy se sirve en cestillos de bambú al vapor, con carritos o cartas llenas de pequeños platos para compartir — la forma perfecta de despedirse de la cocina cantonesa antes de cruzar a Shenzhen."
         },
         {
           "n": "Shenzhen, ciudad de reforma (llegada)",
@@ -1046,7 +1111,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Shenzhen es probablemente el ejemplo más extremo de transformación urbana del mundo moderno: hace poco más de cuarenta años era un pueblo pesquero de unos treinta mil habitantes, y hoy es una metrópolis de más de diez millones de personas y uno de los principales centros tecnológicos del planeta. Fue la primera Zona Económica Especial de China, el laboratorio donde empezó la apertura económica del país a finales de los años setenta."
         },
         {
           "n": "Huaqiangbei",
@@ -1061,7 +1127,8 @@
           "mejor_momento": "Tarde del 07/09 o mañana del 08/09.",
           "notas_extra": "Tecnología con control de garantía, compatibilidad y factura.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Huaqiangbei es el barrio de electrónica más denso del mundo, con edificios enteros dedicados a componentes, gadgets y dispositivos de todo tipo. Al comprar aquí conviene siempre pedir factura y comprobar la garantía y la compatibilidad del producto antes de cerrar la compra — es zona de mercado real, no de tienda con precio fijo."
         },
         {
           "n": "SEG Electronics Market",
@@ -1073,7 +1140,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El mercado SEG de electrónica es una de las torres más veteranas y conocidas de Huaqiangbei, con plantas enteras dedicadas a componentes, placas base y piezas sueltas. Es el tipo de lugar donde se puede encontrar literalmente cualquier componente electrónico imaginable, vendido al peso o a la pieza."
         },
         {
           "n": "Huaqiang Electronics World",
@@ -1085,7 +1153,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Huaqiang Electronics World es otro de los grandes templos del comercio electrónico de Shenzhen, con miles de pequeños puestos especializados en todo tipo de gadgets, cables, pantallas y piezas de repuesto. El ambiente, ruidoso y denso de gente, es en sí mismo parte de la experiencia."
         },
         {
           "n": "Gangxia North",
@@ -1097,7 +1166,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Gangxia North es una de las estaciones de metro más importantes de Shenzhen, punto de trasbordo entre varias líneas y acceso directo al distrito financiero de Futian. Su tamaño y complejidad dan una idea de la escala del sistema de transporte público que sostiene a esta ciudad de más de diez millones de habitantes."
         },
         {
           "n": "Futian y Civic Center",
@@ -1109,7 +1179,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Futian y el Centro Cívico son el corazón administrativo y financiero de Shenzhen, con el edificio del gobierno municipal —con su tejado ondulado característico— como imagen más reconocible del distrito. De noche, los rascacielos de alrededor se iluminan formando uno de los perfiles urbanos más impresionantes de China."
         }
       ],
       "stage_name": "Guangzhou"
@@ -1134,7 +1205,8 @@
           "mejor_momento": "Tarde del 07/09 o mañana del 08/09.",
           "notas_extra": "Tecnología con control de garantía, compatibilidad y factura.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Museo de Huaqiangbei cuenta la historia de este barrio único: de aldea de talleres a epicentro mundial del hardware electrónico. Es un buen punto de partida para entender qué se puede comprar aquí y cómo hacerlo con garantías, antes de lanzarse a los mercados de alrededor."
         },
         {
           "n": "Del componente al prototipo",
@@ -1147,7 +1219,8 @@
           "stage": 7,
           "categoria": null,
           "prioridad": null,
-          "estado": null
+          "estado": null,
+          "audio_texto": "'Del componente al prototipo' resume en una frase lo que hace único a Huaqiangbei: aquí es posible comprar cualquier pieza electrónica por la mañana y tener un prototipo funcionando por la tarde, gracias a la densidad de talleres, fabricantes y proveedores concentrados en muy pocas manzanas. Es el ecosistema que ha hecho posible que Shenzhen sea, para muchos, la capital mundial del hardware."
         },
         {
           "n": "Compra segura en Huaqiangbei",
@@ -1162,7 +1235,8 @@
           "mejor_momento": "Tarde del 07/09 o mañana del 08/09.",
           "notas_extra": "Tecnología con control de garantía, compatibilidad y factura.",
           "mapa_notion_url": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "Esta parada es, en realidad, un recordatorio práctico: comprar en Huaqiangbei con cabeza, exigiendo siempre factura y comprobando compatibilidad y garantía antes de cerrar cualquier compra de tecnología. El barrio ofrece precios y variedad difíciles de encontrar en otro sitio, pero conviene comprar con la misma calma con la que se elegiría en casa."
         },
         {
           "n": "Museo de Arte y Planificación Urbana",
@@ -1174,7 +1248,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "El Museo de Arte Contemporáneo y Planificación Urbana de Shenzhen combina dos instituciones en un solo edificio futurista: una dedicada al arte contemporáneo chino e internacional, y otra que explica, con maquetas a gran escala, cómo se ha planificado y construido la ciudad en apenas cuatro décadas."
         },
         {
           "n": "Lianhuashan y Deng Xiaoping",
@@ -1186,7 +1261,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Montaña Lianhua, o Montaña del Loto, es uno de los parques más queridos por los propios habitantes de Shenzhen, con vistas panorámicas sobre el distrito financiero de Futian. En su cima se encuentra una estatua de Deng Xiaoping, el líder que impulsó las reformas económicas que convirtieron esta antigua aldea pesquera en la ciudad que es hoy."
         },
         {
           "n": "Ping An y Greater Bay Area",
@@ -1198,7 +1274,8 @@
           "categoria": null,
           "prioridad": null,
           "estado": null,
-          "geocode_pending": false
+          "geocode_pending": false,
+          "audio_texto": "La Torre Ping An Finance Centre, con trescientos noventa y nueve metros de altura, fue durante años uno de los edificios más altos de China. Junto con el resto de rascacielos del área de la Bahía del Gran Guangdong-Hong Kong-Macao, simboliza la ambición de esta región como uno de los polos económicos más dinámicos del mundo."
         }
       ],
       "stage_name": "Shenzhen"

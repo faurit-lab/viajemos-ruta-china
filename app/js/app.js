@@ -281,6 +281,7 @@ function renderStopDetail(stop) {
       ${stop.mejor_momento ? `<div class="sd-row"><b>Mejor momento:</b> ${stop.mejor_momento}</div>` : ''}
       ${stop.notas_extra ? `<div class="sd-row">${stop.notas_extra}</div>` : ''}
       ${stop.opt ? `<div class="sd-row sd-opt">Parada opcional — según tiempo y energía.</div>` : ''}
+      ${stop.audio_texto ? `<div class="sd-audio-script"><div class="logi-label">Guion de la audioguía</div>${stop.audio_texto}</div>` : ''}
 
       <div class="sd-note-block">
         <textarea class="stop-note-input" id="sd-note" placeholder="Nota, gasto, valoración, enlace a foto...">${noteVal}</textarea>
