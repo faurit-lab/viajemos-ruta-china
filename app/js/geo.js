@@ -31,7 +31,37 @@ function buildAudioScript(stop) {
   return parts.join('. ');
 }
 
-function speak(text, lang) {
+// El dispositivo suele arrancar con voces ya cargadas, pero en algunos
+// navegadores (sobre todo Chrome) `getVoices()` devuelve vacío la primera
+// vez y se rellena de forma asíncrona con el evento `voiceschanged`.
+let _voicesCache = null;
+function getVoicesReady() {
+  return new Promise((resolve) => {
+    const existing = window.speechSynthesis.getVoices();
+    if (existing.length) return resolve(existing);
+    window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices());
+    setTimeout(() => resolve(window.speechSynthesis.getVoices()), 500); // por si el evento nunca llega
+  });
+}
+
+// Elige la voz en español que suene menos robótica de las disponibles en
+// el dispositivo, en vez de dejar que el navegador use la que le caiga
+// por defecto (la causa de esa voz "nerviosa" que sonaba antes).
+async function pickSpanishVoice(lang) {
+  if (_voicesCache) return _voicesCache;
+  const voices = await getVoicesReady();
+  const esVoices = voices.filter((v) => v.lang && v.lang.toLowerCase().startsWith('es'));
+  const preferred = ['google', 'mónica', 'monica', 'paulina', 'microsoft', 'helena', 'laura', 'natural'];
+  const best =
+    esVoices.find((v) => preferred.some((p) => v.name.toLowerCase().includes(p))) ||
+    esVoices.find((v) => v.lang.toLowerCase() === (lang || 'es-es').toLowerCase()) ||
+    esVoices[0] ||
+    null;
+  _voicesCache = best;
+  return best;
+}
+
+async function speak(text, lang) {
   if (!('speechSynthesis' in window)) {
     console.warn('[geo] Web Speech API no disponible en este navegador.');
     return false;
@@ -39,7 +69,10 @@ function speak(text, lang) {
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = lang || 'es-ES';
-  utter.rate = 0.98;
+  utter.rate = 0.88;  // más pausado — la voz por defecto sonaba nerviosa/atropellada
+  utter.pitch = 1.0;
+  const voice = await pickSpanishVoice(lang);
+  if (voice) utter.voice = voice;
   window.speechSynthesis.speak(utter);
   return true;
 }

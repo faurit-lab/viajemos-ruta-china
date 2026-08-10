@@ -43,7 +43,8 @@ body {
 /* ROUTE STRIP */
 .route-strip { display: flex; overflow-x: auto; gap: 6px; padding: 12px 20px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
 .route-strip::-webkit-scrollbar { display: none; }
-.route-chip { flex: 0 0 auto; font-size: 12px; color: var(--ink-soft); background: var(--paper-2); border-radius: 20px; padding: 5px 11px; white-space: nowrap; }
+.route-chip { flex: 0 0 auto; font-size: 12px; color: var(--ink-soft); background: var(--paper-2); border-radius: 20px; padding: 5px 11px; white-space: nowrap; cursor: pointer; }
+.route-chip:active { opacity: 0.7; }
 .route-chip.active { background: var(--seal); color: #fff; font-weight: 500; }
 
 /* DAY NAV */
@@ -81,7 +82,7 @@ body {
 .stop-note-btn, .stop-audio-btn, .stop-map-btn { font-size: 11.5px; color: var(--jade); background: none; border: none; padding: 0; cursor: pointer; font-weight: 500; }
 .stop-audio-btn { color: var(--seal); }
 .stop-map-btn { color: var(--gold); }
-.stop-clickable { cursor: pointer; }
+.stop-clickable { cursor: pointer; display: block; width: 100%; padding: 4px 0; margin: -4px 0; -webkit-tap-highlight-color: rgba(178,58,46,0.15); }
 .stop-clickable:active { opacity: 0.7; }
 .stop-chevron { color: var(--line); margin-left: 4px; font-weight: 700; }
 .pill-tipo { background: var(--paper-2); color: var(--ink-soft); }

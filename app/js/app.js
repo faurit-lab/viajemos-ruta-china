@@ -80,9 +80,20 @@ function renderRouteStrip() {
   strip.innerHTML = '';
   Object.entries(dataset.etapas).forEach(([k, v]) => {
     if (k === '0') return;
+    const stageNum = Number(k);
     const chip = document.createElement('div');
-    chip.className = 'route-chip' + (dataset.dias[selectedDay].stage === Number(k) ? ' active' : '');
+    chip.className = 'route-chip' + (dataset.dias[selectedDay].stage === stageNum ? ' active' : '');
     chip.textContent = v;
+    // Salta al primer día de esa etapa — antes las etiquetas eran solo
+    // decorativas, sin ninguna acción al tocarlas.
+    chip.onclick = () => {
+      const targetDay = dataset.dias.findIndex((d) => d.stage === stageNum);
+      if (targetDay === -1) return;
+      selectedDay = targetDay;
+      render();
+      if (mapView) mapView.renderDay(dataset.dias[selectedDay]);
+      document.getElementById('day-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
     strip.appendChild(chip);
   });
 }
@@ -288,7 +299,6 @@ function renderStopDetail(stop) {
       ${stop.mejor_momento ? `<div class="sd-row"><b>Mejor momento:</b> ${stop.mejor_momento}</div>` : ''}
       ${stop.notas_extra ? `<div class="sd-row">${stop.notas_extra}</div>` : ''}
       ${stop.opt ? `<div class="sd-row sd-opt">Parada opcional — según tiempo y energía.</div>` : ''}
-      ${stop.audio_texto ? `<div class="sd-audio-script"><div class="logi-label">Guion de la audioguía</div>${stop.audio_texto}</div>` : ''}
 
       <div class="sd-note-block">
         <textarea class="stop-note-input" id="sd-note" placeholder="Nota, gasto, valoración, enlace a foto..."></textarea>
@@ -300,6 +310,8 @@ function renderStopDetail(stop) {
         <button class="btn" id="sd-audio">🔊 Escuchar audioguía</button>
         ${hasCoords ? `<button class="btn" id="sd-map">🗺️ Ver en el mapa</button>` : ''}
       </div>
+
+      ${stop.audio_texto ? `<div class="sd-audio-script"><div class="logi-label">Guion de la audioguía</div>${stop.audio_texto}</div>` : ''}
 
       <div class="sd-nav">
         <button class="btn" id="sd-prev" ${prev ? '' : 'disabled'}>◀ ${prev ? prev.n : 'Anterior'}</button>
