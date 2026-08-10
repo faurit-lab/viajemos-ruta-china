@@ -47,6 +47,7 @@ function switchTab(tab) {
   document.querySelectorAll('.nav-btn').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
   document.getElementById('agenda-view').classList.toggle('active', tab === 'agenda');
   document.getElementById('map-view').classList.toggle('active', tab === 'map');
+  document.getElementById('logistics-view').classList.toggle('active', tab === 'logistics');
   document.getElementById('audio-view').classList.toggle('active', tab === 'audio');
   if (tab === 'map') {
     if (!mapView) {
@@ -56,6 +57,7 @@ function switchTab(tab) {
     mapView.renderDay(dataset.dias[selectedDay]);
     mapView.invalidateSize();
   }
+  if (tab === 'logistics') renderLogistics();
 }
 
 // ---------- RENDER GENERAL ----------
@@ -369,6 +371,46 @@ function renderMapFilters() {
       mapView.renderDay(dataset.dias[selectedDay]);
     };
     wrap.appendChild(chip);
+  });
+}
+
+// ---------- LOGÍSTICA (L4) ----------
+// Superpone sobre el itinerario lo que ya está confirmado (vuelos
+// internacionales, traslados entre etapas, alojamientos geocodificados).
+// No inventa hoteles ni ventanas de billete que no estén en el dataset —
+// donde falte el dato se marca explícitamente como pendiente.
+function renderLogistics() {
+  const panel = document.getElementById('logistics-panel');
+  const logistics = buildLogistics(dataset);
+  const vi = dataset.vuelos_internacionales;
+
+  let html = `
+    <div class="logi-card logi-flights">
+      <h3>✈️ Vuelos internacionales</h3>
+      <div class="logi-flight-row"><b>Ida</b> · ${vi.ida.vuelo} · ${vi.ida.origen} → ${vi.ida.destino} · ${vi.ida.fecha} ${vi.ida.salida}</div>
+      <div class="logi-flight-row"><b>Vuelta</b> · ${vi.vuelta.vuelo} · ${vi.vuelta.origen} → ${vi.vuelta.destino} · ${vi.vuelta.fecha} ${vi.vuelta.salida}${vi.vuelta.llegada ? ' · llegada ' + vi.vuelta.llegada : ''}</div>
+    </div>
+  `;
+
+  logistics.forEach((stage) => {
+    if (stage.stageNum === 0) return; // ya cubierto en la tarjeta de vuelos
+    html += `
+      <div class="logi-card">
+        <h3>${stage.stageName} <span class="logi-nights">${stage.dayCount} ${stage.dayCount === 1 ? 'día' : 'días'} de itinerario</span></h3>
+        ${stage.travelNotes.map((t) => `<div class="logi-row logi-travel">✈️ <b>${formatDateShort(t.date)} ${t.dow}</b> · ${t.note}</div>`).join('')}
+        <div class="logi-accom-block">
+          <div class="logi-label">Alojamiento</div>
+          ${stage.accommodations.length
+            ? stage.accommodations.map((a) => `<div class="logi-row">🏨 <b>${a.stop.n}</b>${a.stop.cn ? ` <span class="stop-cn">${a.stop.cn}</span>` : ''} <span class="logi-muted">· desde ${formatDateShort(a.date)}</span>${a.stop.id ? ` <button class="stop-map-btn" data-mapid="${a.stop.id}">🗺️ ver</button>` : ''}</div>`).join('')
+            : `<div class="logi-row logi-pending">Sin confirmar todavía en el dataset.</div>`}
+        </div>
+      </div>
+    `;
+  });
+
+  panel.innerHTML = html;
+  panel.querySelectorAll('.stop-map-btn').forEach((el) => {
+    el.onclick = () => goToStopOnMap(el.dataset.mapid);
   });
 }
 

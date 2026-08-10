@@ -64,6 +64,35 @@ function buildSequence(dataset) {
   return seq;
 }
 
+// Viajemos · L4 — Logística en capas
+// Agrupa por etapa lo que YA existe en el dataset (traslados y alojamientos
+// marcados con tipo:"alojamiento"). No inventa hoteles ni ventanas de
+// compra que no estén en el dataset — donde falte, se marca explícitamente
+// como pendiente en vez de rellenar con datos supuestos.
+function buildLogistics(dataset) {
+  const stages = Object.keys(dataset.etapas).map(Number).sort((a, b) => a - b);
+  return stages.map((stageNum) => {
+    const stageDays = dataset.dias.filter((d) => d.stage === stageNum);
+    const travelNotes = stageDays.filter((d) => d.travel && d.note).map((d) => ({ date: d.date, dow: d.dow, note: d.note }));
+    const accommodations = [];
+    stageDays.forEach((day) => {
+      day.stops.forEach((s) => {
+        if (s.tipo === 'alojamiento') accommodations.push({ date: day.date, stop: s });
+      });
+    });
+    return {
+      stageNum,
+      stageName: dataset.etapas[stageNum],
+      // Días de itinerario asignados a esta etapa (no es lo mismo que
+      // "noches de hotel": algunos días de traslado no implican pernocta
+      // en el destino de llegada — evitamos inferir noches sin dato explícito).
+      dayCount: stageNum === 0 ? 0 : stageDays.length,
+      travelNotes,
+      accommodations
+    };
+  });
+}
+
 function sequenceNeighbors(dataset, stopId) {
   const seq = buildSequence(dataset);
   const idx = seq.findIndex((s) => s.id === stopId);
