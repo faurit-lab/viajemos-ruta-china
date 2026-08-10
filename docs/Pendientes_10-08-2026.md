@@ -26,15 +26,18 @@
       pregunta que quedó abierta en el guion original y nunca se cerró.
 - [ ] Decidir si se quiere audio también en otro idioma (hoy solo español).
 
-## 3 · L4 · Logística en capas (parcial → completar)
-Hoy solo se ven las notas de vuelo/traslado por día (`day.note`). Falta
-superponer de forma estructurada:
-- [ ] Alojamientos por etapa (noches, nombre, ya hay 2 geocodificados:
-      Orange Hotel Zhangjiajie y Shenzhoujie International Hotel).
-- [ ] Ventanas de compra de billetes ya identificadas (si las hay en el
-      Documento Maestro / billete Air China).
-- [ ] Decidir si esto vive en la ficha del día, en la ficha de la parada, o
-      en una vista propia.
+## 3 · L4 · Logística en capas — ✅ hecho (10/08, sesión 19:00)
+Nueva pestaña "🧳 Logística": tarjeta de vuelos internacionales + una
+tarjeta por etapa con traslados y alojamiento, enlazada al mapa. Solo
+refleja lo que YA está en el dataset (no se inventaron hoteles):
+- ✅ Orange Hotel Zhangjiajie y Shenzhoujie International Hotel, con botón
+  directo al mapa.
+- ⚠️ Fenghuang, Chongqing, Yangshuo, Guangzhou y Shenzhen muestran
+  "Sin confirmar todavía en el dataset" — pendiente añadir esos hoteles
+  cuando se decidan/reserven, en `data/master_dataset.json` (`tipo: "alojamiento"`).
+- ⬜ Ventanas de compra de billetes: no había ningún dato de esto en
+  `master_dataset.json` pese a lo que decía la spec — si existen, están
+  solo en el Documento Maestro (Google Drive) y habría que traerlas.
 
 ## 4 · L5 · Diario y gastos (no iniciado)
 Pospuesto a después del viaje según la spec original — no es prioritario
