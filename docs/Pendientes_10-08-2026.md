@@ -32,9 +32,10 @@ tarjeta por etapa con traslados y alojamiento, enlazada al mapa. Solo
 refleja lo que YA está en el dataset (no se inventaron hoteles):
 - ✅ Orange Hotel Zhangjiajie y Shenzhoujie International Hotel, con botón
   directo al mapa.
-- ⚠️ Fenghuang, Chongqing, Yangshuo, Guangzhou y Shenzhen muestran
-  "Sin confirmar todavía en el dataset" — pendiente añadir esos hoteles
-  cuando se decidan/reserven, en `data/master_dataset.json` (`tipo: "alojamiento"`).
+- ✅ Fenghuang, Chongqing, Yangshuo, Guangzhou y Shenzhen: **decisión del
+  usuario, no dato pendiente** — en esas etapas van sin alojamiento
+  concertado a propósito (viajan libres). El mensaje "sin confirmar" en la
+  app es correcto y se queda así salvo que decidan reservar algo concreto.
 - ⬜ Ventanas de compra de billetes: no había ningún dato de esto en
   `master_dataset.json` pese a lo que decía la spec — si existen, están
   solo en el Documento Maestro (Google Drive) y habría que traerlas.
