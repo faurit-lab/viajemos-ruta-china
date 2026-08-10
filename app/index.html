@@ -25,8 +25,13 @@
     </div>
   </div>
 
+  <!-- VISTA: HOY — panel de entrada, lo que toca ahora -->
+  <div id="hoy-view" class="view active">
+    <div class="hoy-panel" id="hoy-panel"></div>
+  </div>
+
   <!-- VISTA: AGENDA (L0 + L1) -->
-  <div id="agenda-view" class="view active">
+  <div id="agenda-view" class="view">
     <div class="route-strip" id="route-strip"></div>
     <div class="day-nav" id="day-nav"></div>
     <div class="day-panel" id="day-panel"></div>
@@ -69,7 +74,8 @@
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-btn active" data-tab="agenda"><span class="icon">🗓️</span>Agenda</button>
+    <button class="nav-btn active" data-tab="hoy"><span class="icon">☀️</span>Hoy</button>
+    <button class="nav-btn" data-tab="agenda"><span class="icon">🗓️</span>Agenda</button>
     <button class="nav-btn" data-tab="map"><span class="icon">🗺️</span>Mapa</button>
     <button class="nav-btn" data-tab="logistics"><span class="icon">🧳</span>Logística</button>
     <button class="nav-btn" data-tab="audio"><span class="icon">🔊</span>Audioguía</button>

@@ -97,6 +97,96 @@ function buildLogistics(dataset) {
   });
 }
 
+// Viajemos · "Hoy" — panel de entrada, lo que toca ahora mismo.
+// Todo lo de aquí sale de datos que ya existen; nada se inventa. Lo que
+// necesitaría datos nuevos (horarios de apertura, cómo llegar, gasto
+// previsto) o un servicio externo (tiempo meteorológico) queda fuera a
+// propósito — ver docs/Pendientes.
+
+function haversineKm(lat1, lng1, lat2, lng2) {
+  return haversineMeters(lat1, lng1, lat2, lng2) / 1000;
+}
+
+// Suma la distancia en línea recta entre paradas consecutivas del día que
+// tengan coordenadas — aproximado (no es ruta real a pie), pero derivado
+// de datos reales, no un número inventado.
+function dayWalkingKm(day) {
+  const withCoords = day.stops.filter((s) => typeof s.lat === 'number' && typeof s.lng === 'number');
+  let km = 0;
+  for (let i = 1; i < withCoords.length; i++) {
+    km += haversineKm(withCoords[i - 1].lat, withCoords[i - 1].lng, withCoords[i].lat, withCoords[i].lng);
+  }
+  return km;
+}
+
+// Estima minutos de audioguía sumando las palabras de audio_texto de las
+// paradas del día, a un ritmo de habla pausado (~130 palabras/min, acorde
+// con la velocidad de voz configurada en geo.js).
+function dayAudioMinutes(day) {
+  const words = day.stops.reduce((acc, s) => acc + (s.audio_texto ? s.audio_texto.split(/\s+/).length : 0), 0);
+  return Math.round(words / 130);
+}
+
+// FIJO / FLEXIBLE / OPCIONAL — derivado de campos que ya existen (opt,
+// estado), no un dato nuevo que haya que rellenar a mano.
+function deriveStopBadge(stop) {
+  if (stop.opt) return 'OPCIONAL';
+  if (stop.estado === 'Confirmado') return 'FIJO';
+  return 'FLEXIBLE';
+}
+
+function nextUnvisitedStop(day, doneMap) {
+  return day.stops.find((s) => !doneMap[s.id]) || null;
+}
+
+// Busca el alojamiento vigente a partir de un día: primero mira si el
+// propio día tiene una parada tipo "alojamiento"; si no, mira hacia atrás
+// en la misma etapa (el hotel se reserva el día de llegada y se usa varias
+// noches sin repetirse cada día en el dataset).
+function findCurrentAccommodation(dataset, dayIndex) {
+  const stage = dataset.dias[dayIndex].stage;
+  for (let i = dayIndex; i >= 0; i--) {
+    const day = dataset.dias[i];
+    if (day.stage !== stage) break;
+    const found = day.stops.find((s) => s.tipo === 'alojamiento');
+    if (found) return found;
+  }
+  return null;
+}
+
+// Próximo día con traslado (travel:true) a partir de dayIndex, inclusive.
+function nextTravelDay(dataset, dayIndex) {
+  for (let i = dayIndex; i < dataset.dias.length; i++) {
+    if (dataset.dias[i].travel) return dataset.dias[i];
+  }
+  return null;
+}
+
+// Cuenta días de calendario entre dos fechas ISO (solo fecha, no hora —
+// por eso es "N días", no una cuenta atrás exacta en horas).
+function daysBetween(isoFrom, isoTo) {
+  const a = new Date(isoFrom + 'T00:00:00');
+  const b = new Date(isoTo + 'T00:00:00');
+  return Math.round((b - a) / 86400000);
+}
+
+// Alertas automáticas: derivadas de paradas opcionales/candidatas del día
+// (dependen de tiempo/energía) y de notas que mencionan entradas o franjas
+// horarias sin confirmar todavía — no se inventa ningún texto, solo se
+// resalta lo que ya está escrito en el dataset.
+const ALERT_KEYWORDS = ['pendiente', 'pendientes', 'sin abrir', 'franja horaria', 'apertura', 'sale a la venta'];
+function deriveAlerts(day) {
+  const alerts = [];
+  day.stops.forEach((s) => {
+    if ((s.opt || s.estado === 'Candidato') && s.notas_extra) {
+      alerts.push({ title: `${s.n} depende de la energía/tiempo`, reason: s.notas_extra });
+    } else if (s.notas_extra && ALERT_KEYWORDS.some((k) => s.notas_extra.toLowerCase().includes(k))) {
+      alerts.push({ title: `${s.n}: revisar antes de ir`, reason: s.notas_extra });
+    }
+  });
+  return alerts;
+}
+
 function sequenceNeighbors(dataset, stopId) {
   const seq = buildSequence(dataset);
   const idx = seq.findIndex((s) => s.id === stopId);

@@ -21,6 +21,7 @@ async function boot() {
   wireTabs();
   wireAudioView();
   render();
+  renderHoy();
 }
 
 // Cabecera genérica: todo sale del dataset (título, viajeros, fechas,
@@ -68,10 +69,12 @@ function wireTabs() {
 
 function switchTab(tab) {
   document.querySelectorAll('.nav-btn').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
+  document.getElementById('hoy-view').classList.toggle('active', tab === 'hoy');
   document.getElementById('agenda-view').classList.toggle('active', tab === 'agenda');
   document.getElementById('map-view').classList.toggle('active', tab === 'map');
   document.getElementById('logistics-view').classList.toggle('active', tab === 'logistics');
   document.getElementById('audio-view').classList.toggle('active', tab === 'audio');
+  if (tab === 'hoy') renderHoy();
   if (tab === 'map') {
     if (!mapView) {
       mapView = new MapView('map');
@@ -114,6 +117,7 @@ function renderRouteStrip() {
       if (targetDay === -1) return;
       selectedDay = targetDay;
       render();
+      renderHoy();
       if (mapView) mapView.renderDay(dataset.dias[selectedDay]);
       document.getElementById('day-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
@@ -128,7 +132,7 @@ function renderDayNav() {
     const btn = document.createElement('div');
     btn.className = 'day-btn' + (i === selectedDay ? ' selected' : '') + (d.travel ? ' has-travel' : '');
     btn.innerHTML = `<span class="dn">${d.dow}</span><span class="dd">${formatDateShort(d.date).split('/')[0]}</span><span class="flag"></span>`;
-    btn.onclick = () => { selectedDay = i; render(); if (mapView) { mapView.renderDay(dataset.dias[selectedDay]); } document.getElementById('day-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    btn.onclick = () => { selectedDay = i; render(); renderHoy(); if (mapView) { mapView.renderDay(dataset.dias[selectedDay]); } document.getElementById('day-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     nav.appendChild(btn);
   });
 }
@@ -217,6 +221,7 @@ function wireDayPanelEvents(panel, day) {
       state.done[el.dataset.id] = !state.done[el.dataset.id];
       persist();
       render();
+      renderHoy();
     };
   });
 
@@ -280,6 +285,116 @@ function wireDayPanelEvents(panel, day) {
     persist();
     render();
   };
+}
+
+// ---------- HOY — panel de entrada ----------
+// Todo lo que se ve aquí sale de trip.json + el estado local (visitado).
+// Nada de tiempo meteorológico, horarios de apertura ni gasto previsto
+// todavía — eso necesita datos nuevos o un servicio externo, ver
+// docs/Pendientes.
+function renderHoy() {
+  const panel = document.getElementById('hoy-panel');
+  const day = dataset.dias[selectedDay];
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const hour = now.getHours();
+  const greeting = hour < 12 ? 'Buenos días' : hour < 20 ? 'Buenas tardes' : 'Buenas noches';
+  const nombre = (dataset.viajeros && dataset.viajeros[0]) ? dataset.viajeros[0].split(' ')[0] : '';
+
+  const doneInDay = day.stops.filter((s) => state.done[s.id]).length;
+  const next = nextUnvisitedStop(day, state.done);
+
+  const accom = findCurrentAccommodation(dataset, selectedDay);
+  const travelDay = nextTravelDay(dataset, selectedDay);
+  const alerts = deriveAlerts(day);
+
+  const fijoCount = day.stops.filter((s) => deriveStopBadge(s) === 'FIJO').length;
+  const flexCount = day.stops.filter((s) => deriveStopBadge(s) === 'FLEXIBLE').length;
+  const optCount = day.stops.filter((s) => deriveStopBadge(s) === 'OPCIONAL').length;
+  const km = dayWalkingKm(day);
+  const audioMin = dayAudioMinutes(day);
+
+  let html = `
+    <div class="hoy-greet">
+      <div class="hoy-clock">${hh}:${mm}</div>
+      <div class="hoy-greet-txt">${greeting}${nombre ? ', ' + escapeHtml(nombre.toUpperCase()) : ''}</div>
+      <div class="hoy-day-line">${day.dow} ${formatDateLong(day.date)} · ${day.stage_name}</div>
+      <div class="hoy-progress">JORNADA ${selectedDay + 1} DE ${dataset.dias.length} · ${doneInDay}/${day.stops.length} VISITADAS</div>
+    </div>
+  `;
+
+  if (day.stops.length === 0) {
+    html += `<div class="hoy-card"><div class="hoy-card-label">Día de vuelo</div><div class="sd-row">${day.note || 'Sin paradas fijas — jornada de traslado.'}</div></div>`;
+  } else if (!next) {
+    html += `<div class="hoy-card hoy-done">✓ Jornada completada — todas las paradas visitadas.</div>`;
+  } else {
+    const badge = deriveStopBadge(next);
+    html += `
+      <div class="hoy-card hoy-next">
+        <div class="hoy-card-label">Próxima parada</div>
+        <div class="hoy-next-name">${escapeHtml(next.n)}${next.cn ? ` <span class="stop-cn">${escapeHtml(next.cn)}</span>` : ''}<span class="stop-badge badge-opt">${badge}</span></div>
+        ${next.mejor_momento ? `<div class="sd-row">${next.mejor_momento}</div>` : ''}
+        ${next.notas_extra ? `<div class="sd-row">${next.notas_extra}</div>` : ''}
+        <div class="sd-actions">
+          <button class="btn primary" id="hoy-visit">✓ Marcar visitado</button>
+          <button class="btn" id="hoy-ficha">Ver ficha</button>
+        </div>
+      </div>
+    `;
+  }
+
+  const upcoming = day.stops.filter((s) => (!next || s.id !== next.id) && !state.done[s.id]);
+  if (upcoming.length) {
+    html += `<div class="hoy-card"><div class="hoy-card-label">Después</div>`;
+    upcoming.forEach((s) => {
+      html += `<div class="hoy-mini-row" data-openid="${s.id}"><span class="stop-badge badge-opt">${deriveStopBadge(s)}</span><span class="hoy-mini-name">${escapeHtml(s.n)}</span><span class="stop-chevron">›</span></div>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `
+    <div class="hoy-card">
+      <div class="hoy-card-label">El día en cifras</div>
+      <div class="hoy-stats-grid">
+        <div class="hoy-stat"><b>${day.stops.length}</b><span>Paradas</span><i>${fijoCount} fijas · ${flexCount} flexibles · ${optCount} opcional${optCount === 1 ? '' : 'es'}</i></div>
+        <div class="hoy-stat"><b>${km.toFixed(1)}</b><span>Km en línea recta</span><i>entre paradas consecutivas</i></div>
+        <div class="hoy-stat"><b>${audioMin || '<1'}</b><span>Min. de audioguía</span><i>en las fichas de hoy</i></div>
+      </div>
+    </div>
+  `;
+
+  html += `
+    <div class="hoy-card">
+      <div class="hoy-card-label">Esta noche y el próximo traslado</div>
+      ${accom ? `<div class="logi-row">🏨 <b>${escapeHtml(accom.n)}</b></div>` : `<div class="logi-row logi-pending">Alojamiento sin confirmar en el dataset.</div>`}
+      ${travelDay ? `<div class="logi-row logi-travel">✈️ ${formatDateLong(travelDay.date)} · ${travelDay.note || travelDay.title}${travelDay.date !== day.date ? ` <span class="hoy-countdown">quedan ${daysBetween(day.date, travelDay.date)} día${daysBetween(day.date, travelDay.date) === 1 ? '' : 's'}</span>` : ' <span class="hoy-countdown">hoy</span>'}</div>` : ''}
+    </div>
+  `;
+
+  html += `
+    <div class="hoy-card">
+      <div class="hoy-card-label">Requiere tu atención</div>
+      ${alerts.length
+        ? alerts.map((a) => `<div class="hoy-alert"><div class="hoy-alert-title">⚠ ${escapeHtml(a.title)}</div><div class="hoy-alert-reason">${escapeHtml(a.reason)}</div></div>`).join('')
+        : `<div class="logi-row logi-pending">Sin alertas por ahora.</div>`}
+    </div>
+  `;
+
+  panel.innerHTML = html;
+
+  const visitBtn = document.getElementById('hoy-visit');
+  if (visitBtn) visitBtn.onclick = () => {
+    state.done[next.id] = true;
+    persist();
+    render();
+    renderHoy();
+  };
+  const fichaBtn = document.getElementById('hoy-ficha');
+  if (fichaBtn) fichaBtn.onclick = () => openStopDetail(next.id);
+  panel.querySelectorAll('.hoy-mini-row').forEach((el) => {
+    el.onclick = () => openStopDetail(el.dataset.openid);
+  });
 }
 
 // ---------- FICHA DETALLADA (enlaza itinerario ↔ mapa ↔ audioguía) ----------
@@ -366,6 +481,7 @@ function renderStopDetail(stop) {
     renderStopDetail(stop);
     renderDayPanel();
     updateStats();
+    renderHoy();
   };
   document.getElementById('sd-audio').onclick = () => {
     speak(buildAudioScript(stop), state.settings.ttsLang);
@@ -396,6 +512,7 @@ function jumpToStop(stopId) {
   if (stop._dayIndex !== selectedDay) {
     selectedDay = stop._dayIndex;
     render();
+    renderHoy();
     if (mapView) mapView.renderDay(dataset.dias[selectedDay]);
   }
   renderStopDetail(stop);
