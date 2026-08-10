@@ -20,10 +20,24 @@ cerrado desde Notion — no sincroniza en vivo.
   (interacción/tono visual). No es base de código — usa `window.storage`,
   exclusivo de claude.ai.
 
+## App en producción
+
+**https://faurit-lab.github.io/viajemos-ruta-china/**
+
+Repo público (necesario para GitHub Pages gratis) — contiene fechas, vuelos y
+localizador de billete del viaje. Desplegado automáticamente en cada push a
+`main` vía `.github/workflows/deploy-pages.yml`.
+
 ## Estado
 
-Fases 1-4 cerradas. **Fase 5 (ejecución) lista para arrancar**: construir la
-PWA real siguiendo la especificación técnica, en el orden de capas L0→L5.
+Fases 1-4 cerradas. **Fase 5 (ejecución) en curso**, construida directamente
+en `app/` (no por Codex): L0 Agenda, L1 Fichas enriquecidas, L2 Mapa (Leaflet)
+y L3 Audioguía por geolocalización (TTS con Web Speech API) funcionando.
+L4 Logística parcial. L5 Diario sin empezar (previsto para después del viaje).
 
-Pendiente antes de dar la Fase 5 por cerrada: resolver las 7 coordenadas sin
-geocodificar (ver `lugares_sin_geolocalizar` en el dataset).
+Geocodificación: 76 de 77 paradas resueltas vía Nominatim/OSM. Solo queda
+`Wulong Village y Tianbo Mansion` (parada opcional) pendiente de verificación
+manual — ver `geocode_note` en `data/master_dataset.json`.
+
+Pendiente: prueba de campo en móvil real (instalar, permisos de
+geolocalización, radio de geofencing) y rediseño visual.
