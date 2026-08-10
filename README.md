@@ -2,29 +2,49 @@
 
 Copiloto de viaje: PWA instalable, uso privado, que combina agenda por días,
 fichas de lugares, mapa interactivo, audioguía por geolocalización y
-logística en un solo sitio. **El código (`app/`) es genérico — no es una app
-de China.** El viaje concreto vive entero en `app/data/trip.json`; para
-reutilizarla en otro viaje (Italia, Francia, el que sea) se sustituye ese
-archivo y un par de líneas de branding, sin tocar el resto del código.
+logística en un solo sitio. **El código (`app/`) es genérico.** Cada viaje
+concreto es un paquete de datos independiente en `trips/`; activar uno es
+copiar su `trip.json` a `app/data/trip.json` y desplegar — nada más cambia.
 
 Proyecto independiente. No forma parte de Travel-OS/Audioguía.
 
-## Cómo reutilizar la app para otro viaje
+## Estructura del repo
 
-Todo el contenido específico de un viaje vive en estos archivos — son los
-únicos que hay que tocar para "instalar" un viaje nuevo:
+```
+Viajemos/
+├── app/                    ← la PWA (genérica, sin nada de un viaje concreto)
+│   └── data/trip.json      ← copia del viaje ACTIVO (la app solo lee esto)
+├── trips/                  ← un paquete de datos por viaje
+│   └── china-2026/
+│       ├── trip.json       ← fuente de verdad de este viaje
+│       ├── docs/           ← guion de trabajo, spec técnica, pendientes
+│       └── prototype/      ← prototipo de referencia (histórico, no es código base)
+└── scripts/
+    └── activar-viaje.js    ← copia trips/<nombre>/trip.json → app/data/trip.json
+```
 
-1. **`app/data/trip.json`** — el contenido: título, viajeros, fechas, etapas,
-   días, paradas. Mismo esquema que el actual (ver sección siguiente).
-2. **`app/manifest.json`** — `name` y `description` (el navegador los lee
-   antes de que cargue el JS, por eso no pueden salir del dataset).
-3. **`app/icons/icon-192.png` y `icon-512.png`** — opcional, si se quiere un
-   icono distinto al genérico actual.
+`app/` no sabe nada de China, Italia ni de ningún viaje concreto — todo el
+título, fechas, itinerario y paradas salen de `app/data/trip.json` en
+tiempo de ejecución (ver `app/js/data.js` y `renderHero()`/`renderHoy()`
+en `app/js/app.js`).
 
-Todo lo demás (agenda, mapa, audioguía, logística, ficha detallada, Service
-Worker) ya lee el título, las fechas, el número de jornadas/etapas y las 77
-paradas directamente del JSON — no hay ningún "Ruta a China" quemado en el
-HTML ni en el JS de `app/`.
+## Cómo dar de alta un viaje nuevo
+
+1. Crea `trips/<nombre>/trip.json` con el mismo esquema que
+   `trips/china-2026/trip.json` (ver más abajo). Opcionalmente,
+   `trips/<nombre>/docs/` y `trips/<nombre>/prototype/` si aplica.
+2. Actívalo:
+   ```bash
+   node scripts/activar-viaje.js <nombre>
+   ```
+3. Actualiza `app/manifest.json` (`name` y `description` — el navegador los
+   lee antes de que cargue el JS, por eso no pueden salir del dataset) y,
+   si quieres, `app/icons/*.png`.
+4. `git add -A && git commit -m "Activar viaje: <nombre>" && git push` —
+   el despliegue a GitHub Pages es automático.
+
+El viaje anterior no se pierde: sigue en `trips/<nombre-anterior>/`, listo
+para reactivarse cuando toque.
 
 ### Esquema de `trip.json`
 
@@ -49,38 +69,32 @@ HTML ni en el JS de `app/`.
 ```
 
 Todos los campos de una parada salvo `id` y `n` son opcionales — la app no
-rompe si faltan (ver L1 en la especificación técnica).
+rompe si faltan (ver L1 en la especificación técnica, dentro de cada
+`trips/<viaje>/docs/`).
 
-**Multimedia:** `imagen` (una foto de cabecera para la ficha) y `galeria`
-(array de fotos adicionales) son opcionales — sin ellas, la ficha muestra la
-banda de color por etapa, como ahora. Basta con añadir una URL (o una ruta
-relativa a un archivo dentro de `app/images/`, si se prefiere no depender de
-un hosting externo) para que aparezcan automáticamente, sin tocar código.
-El Service Worker las cachea solas la primera vez que se cargan — no hace
-falta añadirlas a la lista de `SHELL_ASSETS` en `sw.js`.
+**Multimedia:** `imagen` (foto de cabecera de la ficha) y `galeria` (array
+de fotos adicionales) son opcionales — sin ellas, la ficha muestra la banda
+de color por etapa, como ahora. El Service Worker las cachea solas la
+primera vez que se cargan, no hace falta tocar `sw.js`.
 
-## Estructura del repo
+## Puntos de restauración
 
-- `app/` — la PWA en sí (genérica, ver arriba).
-- `data/master_dataset.json` — dataset **fuente** de este viaje (Ruta a
-  China), el que se edita y desde el que se copia a `app/data/trip.json`.
-- `docs/` — guion de trabajo, especificación técnica, guion de pendientes.
-- `prototype/` — prototipo de referencia de la capa L0, histórico, no es
-  base de código.
-
-## Punto de restauración
-
-**`v1.0-estable`** (10/08/2026, commit `009a87e`) — versión confirmada por el
-usuario tras probarla en el móvil, previa a la genericación del código.
+Cada hito importante queda marcado con un tag de git — para volver a uno:
 
 ```bash
-git checkout v1.0-estable -- .
+git checkout <tag> -- .
 ```
 
-o para volver del todo a ese punto: `git reset --hard v1.0-estable`
-(perdería los commits posteriores, usar con cuidado).
+o para volver del todo (pierde los commits posteriores, cuidado):
+`git reset --hard <tag>`
 
-## App en producción (viaje actual: Ruta a China)
+- **`v1.3-estructura-viajes`** (10/08/2026) — reorganización en `trips/`,
+  script `activar-viaje.js`, pantalla "Hoy" añadida.
+- `v1.2-diseno-manifiesto` — dirección visual "Manifiesto de viaje" aplicada.
+- `v1.1-generico` — shell sin nada de China hardcodeado, soporte multimedia.
+- `v1.0-estable` — primera versión probada en móvil, previa a la genericación.
+
+## App en producción (viaje activo: Ruta a China)
 
 **https://faurit-lab.github.io/viajemos-ruta-china/**
 
@@ -90,12 +104,16 @@ localizador de billete del viaje. Desplegado automáticamente en cada push a
 
 ## Estado
 
-L0 Agenda, L1 Fichas enriquecidas, L2 Mapa (Leaflet), L3 Audioguía por
-geolocalización (TTS con Web Speech API) y L4 Logística (parcial) —
-funcionando. L5 Diario sin empezar (previsto para después del viaje).
+Hoy (panel de entrada), Agenda (L0+L1), Mapa (L2), Audioguía por
+geolocalización (L3, TTS con Web Speech API) y Logística (L4, parcial) —
+funcionando. Alertas automáticas derivadas del dataset. Diario (L5) sin
+empezar (previsto para después del viaje).
 
 Geocodificación: 76 de 77 paradas resueltas vía Nominatim/OSM. Solo queda
-`Wulong Village y Tianbo Mansion` (parada opcional) pendiente de verificación
-manual — ver `geocode_note` en `data/master_dataset.json`.
+`Wulong Village y Tianbo Mansion` (parada opcional) pendiente de
+verificación manual — ver `geocode_note` en `trips/china-2026/trip.json`.
 
-Pendiente: rediseño visual (aparcado a propósito hasta cerrar lo funcional).
+Pendiente: rediseño visual — el usuario pidió tonos más claros que el actual
+(feedback del 10/08, sesión noche, todavía no aplicado); tiempo
+meteorológico en vivo (servicio externo, al final); horarios de apertura,
+cómo llegar y gasto previsto (necesitan datos nuevos, no inventados).

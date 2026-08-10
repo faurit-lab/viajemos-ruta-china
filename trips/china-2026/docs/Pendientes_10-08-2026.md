@@ -2,6 +2,12 @@
 
 > Sesión del 10/08/2026. Retomamos a las 19:00. Orden sugerido de arriba a abajo:
 > primero cerrar lo técnico/funcional, el diseño va al final.
+>
+> **Nota de reorganización (10/08, noche):** este documento y el resto del
+> paquete de China se movieron a `trips/china-2026/` — la app ahora es
+> genérica (`app/`) y cada viaje vive en su propia carpeta bajo `trips/`.
+> Ver `README.md` en la raíz del repo. El dataset ya no se llama
+> `master_dataset.json`, es `trip.json` dentro de esta misma carpeta.
 
 ---
 
