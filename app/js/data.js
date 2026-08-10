@@ -105,6 +105,15 @@ function sequenceNeighbors(dataset, stopId) {
   };
 }
 
+// Escapa texto libre (notas escritas por el usuario) antes de interpolarlo
+// en HTML — sin esto, una nota con "<" o "</div>" rompía el layout de la
+// ficha o de la agenda.
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 function formatDateShort(iso) {
   const [, m, d] = iso.split('-');
   return `${d}/${m}`;

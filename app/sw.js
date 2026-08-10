@@ -1,8 +1,10 @@
 // Viajemos · Service Worker
-// Cache-first para el app shell y el dataset; permite uso 100% offline
-// una vez instalada y visitada al menos una vez con conexión.
+// Network-first para el app shell y el dataset (con fallback a caché si no
+// hay red): así cada despliegue nuevo se ve de inmediato en vez de tardar
+// una recarga extra en propagarse, y aun así sigue funcionando offline
+// porque cada respuesta de red buena se guarda en caché para la próxima.
 
-const VERSION = 'viajemos-v1';
+const VERSION = 'viajemos-v2';
 const SHELL_CACHE = `${VERSION}-shell`;
 const TILE_CACHE = `${VERSION}-tiles`;
 
@@ -73,18 +75,17 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // App shell y dataset: cache-first, con actualización en segundo plano.
+  // App shell y dataset: network-first. Si hay red, siempre se sirve la
+  // versión más reciente (y se refresca la caché de paso); si no hay red,
+  // cae a lo último cacheado — así la app sigue funcionando offline.
   event.respondWith(
-    caches.match(req).then((cached) => {
-      const network = fetch(req)
-        .then((res) => {
-          if (res && res.ok && req.method === 'GET') {
-            caches.open(SHELL_CACHE).then((cache) => cache.put(req, res.clone()));
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+    fetch(req)
+      .then((res) => {
+        if (res && res.ok && req.method === 'GET') {
+          caches.open(SHELL_CACHE).then((cache) => cache.put(req, res.clone()));
+        }
+        return res;
+      })
+      .catch(() => caches.match(req))
   );
 });

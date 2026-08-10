@@ -124,22 +124,26 @@ function renderDayPanel() {
       if (s.estado) meta.push(`<span class="pill">${s.estado}</span>`);
       if (s.tipo) meta.push(`<span class="pill pill-tipo">${s.tipo}</span>`);
       const hasCoords = typeof s.lat === 'number' && typeof s.lng === 'number';
-      const openable = !!s.id; // solo las paradas del dataset abren ficha detallada
+      // Solo las paradas del dataset original abren la ficha detallada
+      // (openStopDetail busca con findStopById, que no conoce las paradas
+      // añadidas a mano). idx < day.stops.length distingue unas de otras
+      // dentro de allStops, que las concatena.
+      const openable = idx < day.stops.length;
       html += `
         <div class="stop">
           <div class="stop-check ${done ? 'done' : ''}" data-id="${id}">${done ? '✓' : ''}</div>
           <div class="stop-body">
             <div class="${openable ? 'stop-clickable' : ''}" ${openable ? `data-openid="${s.id}"` : ''}>
               <div>
-                <span class="stop-name ${done ? 'done' : ''}">${s.n}</span>
-                ${s.cn ? `<span class="stop-cn">${s.cn}</span>` : ''}
+                <span class="stop-name ${done ? 'done' : ''}">${escapeHtml(s.n)}</span>
+                ${s.cn ? `<span class="stop-cn">${escapeHtml(s.cn)}</span>` : ''}
                 ${s.opt ? '<span class="stop-badge badge-opt">opcional</span>' : ''}
                 ${openable ? '<span class="stop-chevron">›</span>' : ''}
               </div>
               ${meta.length ? `<div class="stop-meta">${meta.join('')}${s.mejor_momento ? `<span>· ${s.mejor_momento}</span>` : ''}</div>` : ''}
               ${s.notas_extra ? `<div class="stop-notas">${s.notas_extra}</div>` : ''}
             </div>
-            ${noteVal ? `<div class="stop-note-txt">📝 ${noteVal}</div>` : ''}
+            ${noteVal ? `<div class="stop-note-txt">📝 ${escapeHtml(noteVal)}</div>` : ''}
             <div class="stop-actions">
               <button class="stop-note-btn" data-noteid="${id}">${noteVal ? 'editar nota' : '+ nota'}</button>
               <button class="stop-audio-btn" data-audioid="${id}">🔊 escuchar ficha</button>
@@ -166,11 +170,14 @@ function renderDayPanel() {
   `;
 
   panel.innerHTML = html;
-  wireDayPanelEvents(day);
+  wireDayPanelEvents(panel, day);
 }
 
-function wireDayPanelEvents(day) {
-  document.querySelectorAll('.stop-check').forEach((el) => {
+// `panel` acota todas las búsquedas a la agenda: sin esto, los selectores
+// pillaban también botones con la misma clase en la pestaña Logística
+// (misma clase CSS, DOM compartido aunque la vista esté oculta).
+function wireDayPanelEvents(panel, day) {
+  panel.querySelectorAll('.stop-check').forEach((el) => {
     el.onclick = () => {
       state.done[el.dataset.id] = !state.done[el.dataset.id];
       persist();
@@ -178,25 +185,25 @@ function wireDayPanelEvents(day) {
     };
   });
 
-  document.querySelectorAll('.stop-clickable').forEach((el) => {
+  panel.querySelectorAll('.stop-clickable').forEach((el) => {
     el.onclick = () => openStopDetail(el.dataset.openid);
   });
 
-  document.querySelectorAll('.stop-audio-btn').forEach((el) => {
+  panel.querySelectorAll('.stop-audio-btn').forEach((el) => {
     el.onclick = () => {
       const id = el.dataset.audioid;
-      const stop = findStopById(dataset, id) || (state.custom[selectedDay] || []).find((s) => (s.id || `custom-${selectedDay}-0`) === id);
+      const stop = findStopById(dataset, id) || (state.custom[selectedDay] || []).find((s) => s.id === id);
       if (!stop) return;
       speak(buildAudioScript(stop), state.settings.ttsLang);
       logGeo(`🔊 reproducción manual: ${stop.n}`);
     };
   });
 
-  document.querySelectorAll('.stop-map-btn').forEach((el) => {
+  panel.querySelectorAll('.stop-map-btn').forEach((el) => {
     el.onclick = () => goToStopOnMap(el.dataset.mapid);
   });
 
-  document.querySelectorAll('.stop-note-btn').forEach((el) => {
+  panel.querySelectorAll('.stop-note-btn').forEach((el) => {
     el.onclick = () => {
       const id = el.dataset.noteid;
       const body = el.closest('.stop-body');
@@ -284,7 +291,7 @@ function renderStopDetail(stop) {
       ${stop.audio_texto ? `<div class="sd-audio-script"><div class="logi-label">Guion de la audioguía</div>${stop.audio_texto}</div>` : ''}
 
       <div class="sd-note-block">
-        <textarea class="stop-note-input" id="sd-note" placeholder="Nota, gasto, valoración, enlace a foto...">${noteVal}</textarea>
+        <textarea class="stop-note-input" id="sd-note" placeholder="Nota, gasto, valoración, enlace a foto..."></textarea>
         <button class="btn" id="sd-note-save">Guardar nota</button>
       </div>
 
@@ -301,6 +308,7 @@ function renderStopDetail(stop) {
     </div>
   `;
 
+  document.getElementById('sd-note').value = noteVal; // asignado como propiedad, no interpolado en el HTML — evita romper el markup si la nota trae "<" o "</textarea>"
   document.getElementById('sd-close').onclick = closeStopDetail;
   document.getElementById('sd-visited').onclick = () => {
     state.done[stop.id] = !state.done[stop.id];
