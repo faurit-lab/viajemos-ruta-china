@@ -120,21 +120,28 @@ function renderDayPanel() {
       if (s.categoria) meta.push(`<span class="pill">${s.categoria}</span>`);
       if (s.prioridad) meta.push(`<span class="pill">${s.prioridad}</span>`);
       if (s.estado) meta.push(`<span class="pill">${s.estado}</span>`);
+      if (s.tipo) meta.push(`<span class="pill pill-tipo">${s.tipo}</span>`);
+      const hasCoords = typeof s.lat === 'number' && typeof s.lng === 'number';
+      const openable = !!s.id; // solo las paradas del dataset abren ficha detallada
       html += `
         <div class="stop">
           <div class="stop-check ${done ? 'done' : ''}" data-id="${id}">${done ? '✓' : ''}</div>
           <div class="stop-body">
-            <div>
-              <span class="stop-name ${done ? 'done' : ''}">${s.n}</span>
-              ${s.cn ? `<span class="stop-cn">${s.cn}</span>` : ''}
-              ${s.opt ? '<span class="stop-badge badge-opt">opcional</span>' : ''}
+            <div class="${openable ? 'stop-clickable' : ''}" ${openable ? `data-openid="${s.id}"` : ''}>
+              <div>
+                <span class="stop-name ${done ? 'done' : ''}">${s.n}</span>
+                ${s.cn ? `<span class="stop-cn">${s.cn}</span>` : ''}
+                ${s.opt ? '<span class="stop-badge badge-opt">opcional</span>' : ''}
+                ${openable ? '<span class="stop-chevron">›</span>' : ''}
+              </div>
+              ${meta.length ? `<div class="stop-meta">${meta.join('')}${s.mejor_momento ? `<span>· ${s.mejor_momento}</span>` : ''}</div>` : ''}
+              ${s.notas_extra ? `<div class="stop-notas">${s.notas_extra}</div>` : ''}
             </div>
-            ${meta.length ? `<div class="stop-meta">${meta.join('')}${s.mejor_momento ? `<span>· ${s.mejor_momento}</span>` : ''}</div>` : ''}
-            ${s.notas_extra ? `<div class="stop-notas">${s.notas_extra}</div>` : ''}
             ${noteVal ? `<div class="stop-note-txt">📝 ${noteVal}</div>` : ''}
             <div class="stop-actions">
               <button class="stop-note-btn" data-noteid="${id}">${noteVal ? 'editar nota' : '+ nota'}</button>
               <button class="stop-audio-btn" data-audioid="${id}">🔊 escuchar ficha</button>
+              ${hasCoords ? `<button class="stop-map-btn" data-mapid="${s.id}">🗺️ ver en mapa</button>` : ''}
             </div>
           </div>
         </div>
@@ -169,6 +176,10 @@ function wireDayPanelEvents(day) {
     };
   });
 
+  document.querySelectorAll('.stop-clickable').forEach((el) => {
+    el.onclick = () => openStopDetail(el.dataset.openid);
+  });
+
   document.querySelectorAll('.stop-audio-btn').forEach((el) => {
     el.onclick = () => {
       const id = el.dataset.audioid;
@@ -177,6 +188,10 @@ function wireDayPanelEvents(day) {
       speak(buildAudioScript(stop), state.settings.ttsLang);
       logGeo(`🔊 reproducción manual: ${stop.n}`);
     };
+  });
+
+  document.querySelectorAll('.stop-map-btn').forEach((el) => {
+    el.onclick = () => goToStopOnMap(el.dataset.mapid);
   });
 
   document.querySelectorAll('.stop-note-btn').forEach((el) => {
@@ -221,6 +236,121 @@ function wireDayPanelEvents(day) {
     persist();
     render();
   };
+}
+
+// ---------- FICHA DETALLADA (enlaza itinerario ↔ mapa ↔ audioguía) ----------
+function openStopDetail(id) {
+  const stop = findStopById(dataset, id);
+  if (!stop) return;
+  renderStopDetail(stop);
+  document.getElementById('stop-overlay').classList.add('open');
+}
+
+function closeStopDetail() {
+  document.getElementById('stop-overlay').classList.remove('open');
+}
+
+function renderStopDetail(stop) {
+  const card = document.getElementById('stop-overlay-card');
+  const day = dataset.dias[stop._dayIndex];
+  const done = !!state.done[stop.id];
+  const noteVal = state.notes[stop.id] || '';
+  const hasCoords = typeof stop.lat === 'number' && typeof stop.lng === 'number';
+  const { prev, next, index, total } = sequenceNeighbors(dataset, stop.id);
+  const color = STAGE_COLORS[stop._stage] || '#B23A2E';
+
+  const meta = [];
+  if (stop.categoria) meta.push(`<span class="pill">${stop.categoria}</span>`);
+  if (stop.prioridad) meta.push(`<span class="pill">${stop.prioridad}</span>`);
+  if (stop.estado) meta.push(`<span class="pill">${stop.estado}</span>`);
+  if (stop.tipo) meta.push(`<span class="pill pill-tipo">${stop.tipo}</span>`);
+
+  card.innerHTML = `
+    <div class="sd-band" style="background:${color}">
+      <button class="sd-close" id="sd-close">✕</button>
+      <div class="sd-band-inner">
+        <div class="sd-index">Parada ${index + 1} de ${total} · ${day.stage_name}</div>
+        <div class="sd-title">${stop.n}${stop.cn ? ` <span class="sd-cn">${stop.cn}</span>` : ''}</div>
+        <div class="sd-day">${formatDateShort(day.date)} · ${day.dow} · ${day.title}</div>
+      </div>
+    </div>
+    <div class="sd-body">
+      ${meta.length ? `<div class="stop-meta sd-meta">${meta.join('')}</div>` : ''}
+      ${stop.mejor_momento ? `<div class="sd-row"><b>Mejor momento:</b> ${stop.mejor_momento}</div>` : ''}
+      ${stop.notas_extra ? `<div class="sd-row">${stop.notas_extra}</div>` : ''}
+      ${stop.opt ? `<div class="sd-row sd-opt">Parada opcional — según tiempo y energía.</div>` : ''}
+
+      <div class="sd-note-block">
+        <textarea class="stop-note-input" id="sd-note" placeholder="Nota, gasto, valoración, enlace a foto...">${noteVal}</textarea>
+        <button class="btn" id="sd-note-save">Guardar nota</button>
+      </div>
+
+      <div class="sd-actions">
+        <button class="btn ${done ? 'primary' : ''}" id="sd-visited">${done ? '✓ Visitado' : 'Marcar visitado'}</button>
+        <button class="btn" id="sd-audio">🔊 Escuchar audioguía</button>
+        ${hasCoords ? `<button class="btn" id="sd-map">🗺️ Ver en el mapa</button>` : ''}
+      </div>
+
+      <div class="sd-nav">
+        <button class="btn" id="sd-prev" ${prev ? '' : 'disabled'}>◀ ${prev ? prev.n : 'Anterior'}</button>
+        <button class="btn" id="sd-next" ${next ? '' : 'disabled'}>${next ? next.n : 'Siguiente'} ▶</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('sd-close').onclick = closeStopDetail;
+  document.getElementById('sd-visited').onclick = () => {
+    state.done[stop.id] = !state.done[stop.id];
+    persist();
+    renderStopDetail(stop);
+    renderDayPanel();
+    updateStats();
+  };
+  document.getElementById('sd-audio').onclick = () => {
+    speak(buildAudioScript(stop), state.settings.ttsLang);
+    logGeo(`🔊 reproducción manual: ${stop.n}`);
+  };
+  document.getElementById('sd-note-save').onclick = () => {
+    state.notes[stop.id] = document.getElementById('sd-note').value.trim();
+    persist();
+    renderDayPanel();
+    flashSaved();
+  };
+  if (hasCoords) {
+    document.getElementById('sd-map').onclick = () => {
+      closeStopDetail();
+      goToStopOnMap(stop.id);
+    };
+  }
+  if (prev) document.getElementById('sd-prev').onclick = () => jumpToStop(prev.id);
+  if (next) document.getElementById('sd-next').onclick = () => jumpToStop(next.id);
+}
+
+// Navega la ficha detallada a otra parada de la secuencia, cambiando de
+// día en la agenda de fondo si hace falta — así la ficha, el día activo y
+// el mapa quedan siempre coherentes entre sí.
+function jumpToStop(stopId) {
+  const stop = findStopById(dataset, stopId);
+  if (!stop) return;
+  if (stop._dayIndex !== selectedDay) {
+    selectedDay = stop._dayIndex;
+    render();
+    if (mapView) mapView.renderDay(dataset.dias[selectedDay]);
+  }
+  renderStopDetail(stop);
+}
+
+// Enlace ficha → mapa: cambia a la pestaña Mapa, se asegura de estar en el
+// día correcto y centra/abre el popup de la parada.
+function goToStopOnMap(stopId) {
+  const stop = findStopById(dataset, stopId);
+  if (!stop) return;
+  if (stop._dayIndex !== selectedDay) {
+    selectedDay = stop._dayIndex;
+    render();
+  }
+  switchTab('map');
+  setTimeout(() => mapView.focusStop(stopId), 150);
 }
 
 // ---------- MAPA (L2) ----------

@@ -10,7 +10,20 @@ class MapView {
       attribution: '&copy; OpenStreetMap'
     }).addTo(this.map);
     this.markers = [];
+    this.markersById = {};
     this.activeCategories = new Set(CATEGORIES);
+
+    // Delegación: los popups se crean dinámicamente, así que el botón de
+    // audio dentro de cada uno se conecta a la reproducción global (geo.js)
+    // en cuanto Leaflet abre el popup.
+    this.map.on('popupopen', (e) => {
+      const btn = e.popup.getElement().querySelector('.pm-audio-btn');
+      if (!btn) return;
+      btn.onclick = () => {
+        const stop = allStopsWithCoords(DATASET).find((s) => s.id === btn.dataset.audioid);
+        if (stop) speak(buildAudioScript(stop));
+      };
+    });
   }
 
   _icon(number, color, dimmed) {
@@ -25,6 +38,7 @@ class MapView {
   clear() {
     this.markers.forEach((m) => this.map.removeLayer(m));
     this.markers = [];
+    this.markersById = {};
   }
 
   renderDay(day) {
@@ -38,10 +52,12 @@ class MapView {
       const marker = L.marker([s.lat, s.lng], { icon: this._icon(i + 1, color, dimmed) });
       const catLine = s.categoria ? `<div class="pm-cat">${s.categoria}${s.prioridad ? ' · ' + s.prioridad : ''}</div>` : '';
       marker.bindPopup(
-        `<div class="pm-popup"><b>${s.n}</b>${s.cn ? ` <span class="pm-cn">${s.cn}</span>` : ''}${catLine}</div>`
+        `<div class="pm-popup"><b>${s.n}</b>${s.cn ? ` <span class="pm-cn">${s.cn}</span>` : ''}${catLine}` +
+        `<button class="pm-audio-btn" data-audioid="${s.id}">🔊 escuchar</button></div>`
       );
       marker.addTo(this.map);
       this.markers.push(marker);
+      this.markersById[s.id] = marker;
       bounds.push([s.lat, s.lng]);
     });
 
@@ -52,6 +68,16 @@ class MapView {
 
   setCategoryFilter(categories) {
     this.activeCategories = new Set(categories);
+  }
+
+  // Enlace ficha → mapa: centra y abre el popup de una parada concreta.
+  // Devuelve true si la parada estaba entre los marcadores ya pintados.
+  focusStop(stopId) {
+    const marker = this.markersById[stopId];
+    if (!marker) return false;
+    this.map.flyTo(marker.getLatLng(), 17, { duration: 0.6 });
+    setTimeout(() => marker.openPopup(), 350);
+    return true;
   }
 
   invalidateSize() {

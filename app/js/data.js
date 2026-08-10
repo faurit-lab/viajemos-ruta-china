@@ -49,6 +49,33 @@ function findStopById(dataset, id) {
   return null;
 }
 
+// Secuencia plana de todas las paradas reales del itinerario, en el orden
+// en que aparecen día a día — es la "capa itinerario" que conecta ficha,
+// mapa y audioguía: permite navegar "anterior/siguiente parada" sin
+// importar en qué día del viaje esté cada una.
+let SEQUENCE_CACHE = null;
+function buildSequence(dataset) {
+  if (SEQUENCE_CACHE) return SEQUENCE_CACHE;
+  const seq = [];
+  dataset.dias.forEach((day) => {
+    day.stops.forEach((s) => seq.push(s));
+  });
+  SEQUENCE_CACHE = seq;
+  return seq;
+}
+
+function sequenceNeighbors(dataset, stopId) {
+  const seq = buildSequence(dataset);
+  const idx = seq.findIndex((s) => s.id === stopId);
+  if (idx === -1) return { prev: null, next: null, index: -1, total: seq.length };
+  return {
+    prev: idx > 0 ? seq[idx - 1] : null,
+    next: idx < seq.length - 1 ? seq[idx + 1] : null,
+    index: idx,
+    total: seq.length
+  };
+}
+
 function formatDateShort(iso) {
   const [, m, d] = iso.split('-');
   return `${d}/${m}`;

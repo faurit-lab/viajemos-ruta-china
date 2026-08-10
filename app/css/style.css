@@ -77,9 +77,14 @@ body {
 .pill { background: var(--jade-soft); color: var(--jade); border-radius: 6px; padding: 1px 6px; }
 .stop-notas { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; font-style: italic; }
 .stop-note-txt { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; white-space: pre-wrap; }
-.stop-actions { display: flex; gap: 10px; margin-top: 6px; }
-.stop-note-btn, .stop-audio-btn { font-size: 11.5px; color: var(--jade); background: none; border: none; padding: 0; cursor: pointer; font-weight: 500; }
+.stop-actions { display: flex; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+.stop-note-btn, .stop-audio-btn, .stop-map-btn { font-size: 11.5px; color: var(--jade); background: none; border: none; padding: 0; cursor: pointer; font-weight: 500; }
 .stop-audio-btn { color: var(--seal); }
+.stop-map-btn { color: var(--gold); }
+.stop-clickable { cursor: pointer; }
+.stop-clickable:active { opacity: 0.7; }
+.stop-chevron { color: var(--line); margin-left: 4px; font-weight: 700; }
+.pill-tipo { background: var(--paper-2); color: var(--ink-soft); }
 .stop-note-input { width: 100%; margin-top: 6px; font-size: 12.5px; border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; background: var(--paper-2); color: var(--ink); resize: vertical; min-height: 32px; }
 .empty-day { text-align: center; color: var(--ink-soft); font-size: 13px; padding: 30px 0; }
 
@@ -101,6 +106,27 @@ body {
 .marker-pin { width: 24px; height: 24px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,.35); border: 2px solid #fff; }
 .pm-cn { color: var(--gold); }
 .pm-cat { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
+.pm-audio-btn { display: block; margin-top: 6px; font-size: 11.5px; color: var(--seal); background: none; border: none; padding: 0; cursor: pointer; font-weight: 600; }
+
+/* FICHA DETALLADA (overlay) */
+.stop-overlay { position: fixed; inset: 0; background: rgba(35,30,25,.55); display: none; align-items: flex-end; justify-content: center; z-index: 200; }
+.stop-overlay.open { display: flex; }
+.stop-overlay-card { background: var(--card); width: 100%; max-width: 720px; border-radius: 16px 16px 0 0; max-height: 88vh; overflow-y: auto; }
+.sd-band { position: relative; padding: 18px 44px 16px 20px; color: #fff; border-radius: 16px 16px 0 0; }
+.sd-close { position: absolute; top: 12px; right: 14px; background: rgba(255,255,255,.2); border: none; color: #fff; width: 28px; height: 28px; border-radius: 50%; font-size: 14px; cursor: pointer; }
+.sd-index { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; opacity: .85; }
+.sd-title { font-size: 20px; font-weight: 700; margin-top: 4px; }
+.sd-cn { font-size: 14px; opacity: .85; font-weight: 500; }
+.sd-day { font-size: 12px; opacity: .85; margin-top: 4px; }
+.sd-body { padding: 16px 20px 24px; }
+.sd-meta { margin-bottom: 10px; }
+.sd-row { font-size: 13.5px; color: var(--ink); line-height: 1.5; margin-bottom: 8px; }
+.sd-opt { color: var(--seal); font-style: italic; }
+.sd-note-block { margin: 14px 0; display: flex; flex-direction: column; gap: 8px; }
+.sd-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.sd-nav { display: flex; gap: 8px; margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
+.sd-nav .btn { flex: 1; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sd-nav .btn:disabled { opacity: .4; cursor: default; }
 
 /* AUDIO / SETTINGS VIEW */
 .audio-panel { padding: 18px 20px; }
