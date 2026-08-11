@@ -334,6 +334,7 @@ function renderHoy() {
       <div class="hoy-card hoy-next">
         <div class="hoy-card-label">Próxima parada</div>
         <div class="hoy-next-name">${escapeHtml(next.n)}${next.cn ? ` <span class="stop-cn">${escapeHtml(next.cn)}</span>` : ''}<span class="stop-badge badge-opt">${badge}</span></div>
+        ${next.ficha && next.ficha.gancho ? `<div class="sd-gancho">${next.ficha.gancho}</div>` : ''}
         ${next.mejor_momento ? `<div class="sd-row">${next.mejor_momento}</div>` : ''}
         ${next.notas_extra ? `<div class="sd-row">${next.notas_extra}</div>` : ''}
         <div class="sd-actions">
@@ -447,11 +448,20 @@ function renderStopDetail(stop) {
     </div>
     <div class="sd-perf"></div>
     <div class="sd-body">
+      ${stop.ficha && stop.ficha.gancho ? `<div class="sd-gancho">${stop.ficha.gancho}</div>` : ''}
       ${meta.length ? `<div class="stop-meta sd-meta">${meta.join('')}</div>` : ''}
       ${stop.mejor_momento ? `<div class="sd-row"><b>Mejor momento:</b> ${stop.mejor_momento}</div>` : ''}
       ${stop.notas_extra ? `<div class="sd-row">${stop.notas_extra}</div>` : ''}
       ${stop.opt ? `<div class="sd-row sd-opt">Parada opcional — según tiempo y energía.</div>` : ''}
       ${galleryStrip}
+
+      ${stop.ficha ? `
+        ${stop.ficha.contexto_historico ? `<div class="sd-row"><b>Contexto histórico</b>${stop.ficha.contexto_historico}</div>` : ''}
+        ${stop.ficha.leyenda ? `<div class="sd-row"><b>Historia o leyenda</b>${stop.ficha.leyenda}</div>` : ''}
+        ${stop.ficha.que_mirar ? `<div class="sd-row"><b>Qué mirar ahora mismo</b>${stop.ficha.que_mirar}</div>` : ''}
+        ${stop.ficha.curiosidad ? `<div class="sd-row"><b>Curiosidad</b>${stop.ficha.curiosidad}</div>` : ''}
+        ${stop.ficha.por_que_ruta ? `<div class="sd-row"><b>Por qué está en esta ruta</b>${stop.ficha.por_que_ruta}</div>` : ''}
+      ` : ''}
 
       <div class="sd-note-block">
         <textarea class="stop-note-input" id="sd-note" placeholder="Nota, gasto, valoración, enlace a foto..."></textarea>
@@ -464,7 +474,7 @@ function renderStopDetail(stop) {
         ${hasCoords ? `<button class="btn" id="sd-map">🗺️ Ver en el mapa</button>` : ''}
       </div>
 
-      ${stop.audio_texto ? `<div class="sd-audio-script"><div class="logi-label">Guion de la audioguía</div>${stop.audio_texto}</div>` : ''}
+      ${(() => { const guion = (stop.ficha && stop.ficha.guion_audio) || stop.audio_texto; return guion ? `<div class="sd-audio-script"><div class="logi-label">Guion de la audioguía</div>${guion}</div>` : ''; })()}
 
       <div class="sd-nav">
         <button class="btn" id="sd-prev" ${prev ? '' : 'disabled'}>◀ ${prev ? prev.n : 'Anterior'}</button>

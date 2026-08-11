@@ -123,7 +123,10 @@ function dayWalkingKm(day) {
 // paradas del día, a un ritmo de habla pausado (~130 palabras/min, acorde
 // con la velocidad de voz configurada en geo.js).
 function dayAudioMinutes(day) {
-  const words = day.stops.reduce((acc, s) => acc + (s.audio_texto ? s.audio_texto.split(/\s+/).length : 0), 0);
+  const words = day.stops.reduce((acc, s) => {
+    const guion = (s.ficha && s.ficha.guion_audio) || s.audio_texto;
+    return acc + (guion ? guion.split(/\s+/).length : 0);
+  }, 0);
   return Math.round(words / 130);
 }
 

@@ -173,6 +173,7 @@ body {
 .sd-cn { font-family: var(--mono); font-size: 14px; opacity: .85; font-weight: 500; }
 .sd-day { font-family: var(--mono); font-size: 11px; opacity: .85; margin-top: 4px; }
 .sd-body { padding: 18px 20px 24px; }
+.sd-gancho { font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--ink); border-left: 3px solid var(--accent); padding-left: 12px; margin-bottom: 14px; }
 .sd-meta { margin-bottom: 10px; }
 .sd-row { font-size: 13.5px; color: var(--ink); line-height: 1.55; margin-bottom: 10px; }
 .sd-row b { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); display: block; margin-bottom: 2px; }

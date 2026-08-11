@@ -19,10 +19,11 @@ function haversineMeters(lat1, lng1, lat2, lng2) {
 }
 
 function buildAudioScript(stop) {
-  // `audio_texto` es el guion narrativo redactado para la audioguía (ver
-  // docs/Pendientes_10-08-2026.md). Si por lo que sea falta en alguna
-  // parada nueva o añadida a mano durante el viaje, se cae de vuelta a
-  // concatenar los campos sueltos del dataset para no dejar el audio mudo.
+  // `ficha.guion_audio` (ficha 2.0, investigada y redactada para hablarse,
+  // ver trips/china-2026/docs) es el guion definitivo cuando existe. Si la
+  // parada no tiene ficha rica todavía, se cae a `audio_texto` (guion corto)
+  // y por último a concatenar los campos sueltos, para no dejar el audio mudo.
+  if (stop.ficha && stop.ficha.guion_audio) return stop.ficha.guion_audio;
   if (stop.audio_texto) return stop.audio_texto;
   const parts = [stop.n];
   if (stop.categoria) parts.push(`Categoría: ${stop.categoria}.`);
