@@ -55,32 +55,28 @@ Construir en este orden. Cada capa debe funcionar y validarse antes de empezar l
 
 Archivo: `master_dataset.json` (adjunto a este encargo).
 
-Estructura:
+**Actualización: el dataset ya incluye el contenido narrativo de la L1 y L3, no solo el índice.** 48 de las 77 paradas tienen un objeto `ficha` embebido con: gancho de apertura, contexto histórico, leyenda o historia destacada, qué mirar en el momento, curiosidad, por qué está en la ruta, y el `guion_audio` ya redactado y listo para pasar por TTS (entre 250 y 650 palabras, 2 a 5 minutos hablado). Las paradas que comparten una misma ficha narrativa (por ejemplo, varias paradas de una misma noche en Fenghuang) llevan además el campo `ficha_compartida_con`, indicando el nombre de la ficha original.
+
+Estructura ampliada de cada parada:
 ```
 {
-  "proyecto", "viajeros", "fechas", "vuelos_internacionales", "etapas",
-  "dias": [
-    {
-      "date", "dow", "stage", "stage_name", "title", "travel"?, "note"?,
-      "stops": [
-        {
-          "id", "n" (nombre), "cn" (nombre chino), "lat", "lng",
-          "stage", "opt"?, "tipo"?, "geocode_pending"?,
-          "categoria"?, "prioridad"?, "estado"?, "mejor_momento"?,
-          "notas_extra"?, "mapa_notion_url"?
-        }
-      ]
-    }
-  ],
-  "lugares_sin_geolocalizar": [...],
-  "lugares_favoritos_no_incluidos_en_itinerario": [...]
+  "id", "n" (nombre), "cn" (nombre chino), "lat", "lng",
+  "stage", "opt"?, "tipo"?, "geocode_pending"?,
+  "categoria"?, "prioridad"?, "estado"?, "mejor_momento"?,
+  "notas_extra"?, "mapa_notion_url"?,
+  "ficha"?: {
+    "gancho", "contexto_historico", "leyenda", "que_mirar",
+    "curiosidad", "por_que_ruta", "dato_clave"?, "guion_audio",
+    "tiene_audio_completo", "ficha_compartida_con"?
+  }
 }
 ```
 
 Notas de uso:
 - `lugares_favoritos_no_incluidos_en_itinerario` son 46 lugares de la base "Lugares y favoritos" de Notion (candidatos, Hong Kong/Macao de referencia futura, etc.) que no están en el itinerario cerrado. No forman parte del itinerario oficial — no mostrarlos en la agenda principal, pero pueden guardarse para una función futura de "añadir parada candidata".
-- Los campos de enriquecimiento (`categoria`, `prioridad`, etc.) solo están presentes en 27 de las 77 paradas — el resto se generó por fuzzy-matching de nombres y no todos casaron. Es aceptable para el lanzamiento; no bloquea nada.
-- Cualquier parada nueva que se añada durante el viaje (la app debe permitir esto, igual que el prototipo) entra sin estos campos de enriquecimiento — están pensados como opcionales en el modelo de datos, nunca obligatorios.
+- **29 paradas siguen sin `ficha`** — sobre todo puntos secundarios dentro de un mismo bloque (por ejemplo, paradas sueltas dentro del casco de Fenghuang que ya comparten contexto con la ficha principal de esa noche, o partes menores de mercados en Shenzhen/Guangzhou). Para el lanzamiento, estas paradas se muestran en la app solo con nombre y nombre chino — sin sección de historia ni botón de audio — y no bloquean el criterio de "hecho" de la L1/L3, que se cumple con las paradas principales.
+- Cualquier parada nueva que se añada durante el viaje (la app debe permitir esto, igual que el prototipo) entra sin `ficha` — el campo es opcional en el modelo de datos, nunca obligatorio.
+- Fuente completa de las 35 fichas redactadas, con las 9 secciones originales (incluyendo curiosidades y justificación completa por lugar) en `Ficha_lugar_plantilla_y_piloto.md`, adjunto también. `master_dataset.json` contiene la versión ya estructurada y lista para consumir por código; el .md es la referencia legible para revisión humana.
 
 ---
 
@@ -122,10 +118,11 @@ Todo esto ya está resumido y volcado en `master_dataset.json`; Codex no necesit
 
 - [ ] La app se instala desde el navegador móvil (Añadir a pantalla de inicio) y abre sin conexión.
 - [ ] Las 17 jornadas y 77 paradas se navegan correctamente (L0).
-- [ ] Las fichas muestran el enriquecimiento disponible sin romper cuando falta (L1).
+- [ ] Las fichas muestran el enriquecimiento y el contenido narrativo disponible (48 de 77 paradas) sin romper cuando falta (L1).
 - [ ] El mapa pinta las paradas del día activo con capas por categoría (L2).
-- [ ] Al simular la llegada a una parada (o físicamente, en pruebas de campo), se dispara su audio (L3).
+- [ ] Al simular la llegada a una parada con `guion_audio` disponible (o físicamente, en pruebas de campo), se dispara su audio generado por TTS (L3).
 - [ ] Las 7 coordenadas pendientes están resueltas o explícitamente descartadas con motivo.
+- [ ] Los audios de las 48 paradas con `guion_audio` están pregenerados y cacheados antes del viaje — no se generan en directo.
 - [ ] Funciona sin cobertura de datos una vez instalada y con contenido cacheado.
 
 ---
