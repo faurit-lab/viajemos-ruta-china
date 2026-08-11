@@ -145,7 +145,7 @@ function renderDayPanel() {
 
   let html = `
     <div class="day-title">${formatDateShort(day.date)} · ${day.dow} · ${day.title}</div>
-    <div class="day-stage">${day.stage_name}</div>
+    <div class="day-stage" id="destino-open">${day.stage_name} · info ›</div>
     ${day.note ? `<p class="day-note">✈️ ${day.note}</p>` : '<div style="height:10px"></div>'}
   `;
 
@@ -216,6 +216,9 @@ function renderDayPanel() {
 // pillaban también botones con la misma clase en la pestaña Logística
 // (misma clase CSS, DOM compartido aunque la vista esté oculta).
 function wireDayPanelEvents(panel, day) {
+  const destinoBtn = document.getElementById('destino-open');
+  if (destinoBtn) destinoBtn.onclick = () => openDestino(day.stage);
+
   panel.querySelectorAll('.stop-check').forEach((el) => {
     el.onclick = () => {
       state.done[el.dataset.id] = !state.done[el.dataset.id];
@@ -232,10 +235,10 @@ function wireDayPanelEvents(panel, day) {
   panel.querySelectorAll('.stop-audio-btn').forEach((el) => {
     el.onclick = () => {
       const id = el.dataset.audioid;
-      const stop = findStopById(dataset, id) || (state.custom[selectedDay] || []).find((s) => s.id === id);
-      if (!stop) return;
-      speak(buildAudioScript(stop), state.settings.ttsLang);
-      logGeo(`🔊 reproducción manual: ${stop.n}`);
+      const realStop = findStopById(dataset, id);
+      if (realStop) { openAudioPlayer(id); return; }
+      const custom = (state.custom[selectedDay] || []).find((s) => s.id === id);
+      if (custom) speak(buildAudioScript(custom), state.settings.ttsLang);
     };
   });
 
@@ -319,7 +322,7 @@ function renderHoy() {
     <div class="hoy-greet">
       <div class="hoy-clock">${hh}:${mm}</div>
       <div class="hoy-greet-txt">${greeting}${nombre ? ', ' + escapeHtml(nombre.toUpperCase()) : ''}</div>
-      <div class="hoy-day-line">${day.dow} ${formatDateLong(day.date)} · ${day.stage_name}</div>
+      <div class="hoy-day-line" id="hoy-destino-open" style="cursor:pointer">${day.dow} ${formatDateLong(day.date)} · ${day.stage_name} ›</div>
       <div class="hoy-progress">JORNADA ${selectedDay + 1} DE ${dataset.dias.length} · ${doneInDay}/${day.stops.length} VISITADAS</div>
     </div>
   `;
@@ -384,6 +387,7 @@ function renderHoy() {
 
   panel.innerHTML = html;
 
+  document.getElementById('hoy-destino-open').onclick = () => openDestino(day.stage);
   const visitBtn = document.getElementById('hoy-visit');
   if (visitBtn) visitBtn.onclick = () => {
     state.done[next.id] = true;
@@ -494,8 +498,8 @@ function renderStopDetail(stop) {
     renderHoy();
   };
   document.getElementById('sd-audio').onclick = () => {
-    speak(buildAudioScript(stop), state.settings.ttsLang);
-    logGeo(`🔊 reproducción manual: ${stop.n}`);
+    closeStopDetail();
+    openAudioPlayer(stop.id);
   };
   document.getElementById('sd-note-save').onclick = () => {
     state.notes[stop.id] = document.getElementById('sd-note').value.trim();
@@ -539,6 +543,166 @@ function goToStopOnMap(stopId) {
   }
   switchTab('map');
   setTimeout(() => mapView.focusStop(stopId), 150);
+}
+
+// ---------- DESTINO — portada editorial de la etapa ----------
+function openDestino(stageNum) {
+  renderDestino(stageNum);
+  document.getElementById('destino-overlay').classList.add('open');
+}
+function closeDestino() {
+  document.getElementById('destino-overlay').classList.remove('open');
+}
+
+function renderDestino(stageNum) {
+  const card = document.getElementById('destino-card');
+  const stageName = dataset.etapas[stageNum];
+  const stageDays = dataset.dias.filter((d) => d.stage === stageNum);
+  const first = stageDays[0], last = stageDays[stageDays.length - 1];
+  const color = STAGE_COLORS[stageNum] || '#B23A2E';
+  const pais = dataset.pais_info || {};
+  const zonas = stageZonas(dataset, stageNum);
+  const stageIndex = Object.keys(dataset.etapas).filter((k) => k !== '0').indexOf(String(stageNum)) + 1;
+  const stageTotal = Object.keys(dataset.etapas).filter((k) => k !== '0').length;
+
+  card.innerHTML = `
+    <div class="sd-band" style="background:${color}">
+      <button class="sd-close" id="destino-close">✕</button>
+      <div class="sd-band-inner">
+        <div class="sd-index">Etapa ${String(stageIndex).padStart(2, '0')} de ${stageTotal} · ${formatDateShort(first.date)}–${formatDateShort(last.date)}</div>
+        <div class="sd-title">${escapeHtml(stageName)}</div>
+      </div>
+    </div>
+    <div class="sd-perf"></div>
+    <div class="sd-body">
+      <div class="hoy-stats-grid destino-grid">
+        ${pais.moneda ? `<div class="hoy-stat"><b>${escapeHtml(pais.moneda)}</b><span>Moneda</span></div>` : ''}
+        ${pais.huso_horario ? `<div class="hoy-stat"><b>${escapeHtml(pais.huso_horario.split(' ')[0])}</b><span>Huso horario</span><i>${escapeHtml(pais.huso_horario)}</i></div>` : ''}
+        ${pais.idioma ? `<div class="hoy-stat"><b>${escapeHtml(pais.idioma)}</b><span>Idioma</span></div>` : ''}
+        ${pais.pagos ? `<div class="hoy-stat"><b>${escapeHtml(pais.pagos.split(' ')[0])}</b><span>Pagos</span><i>${escapeHtml(pais.pagos)}</i></div>` : ''}
+      </div>
+      <div class="logi-label">Zonas clave</div>
+      ${zonas.map((z, i) => `<div class="hoy-mini-row" style="cursor:default"><span class="stop-num">${String(i + 1).padStart(2, '0')}</span><span class="hoy-mini-name">${escapeHtml(z.title)}<div class="stop-notas">${escapeHtml(z.sub)}</div></span></div>`).join('')}
+      <div class="sd-actions" style="margin-top:14px">
+        <button class="btn primary" id="destino-agenda">Ver agenda de esta etapa</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('destino-close').onclick = closeDestino;
+  document.getElementById('destino-agenda').onclick = () => {
+    closeDestino();
+    const targetDay = dataset.dias.findIndex((d) => d.stage === stageNum);
+    if (targetDay !== -1) { selectedDay = targetDay; render(); renderHoy(); if (mapView) mapView.renderDay(dataset.dias[selectedDay]); }
+    switchTab('agenda');
+  };
+}
+
+// ---------- REPRODUCTOR DE AUDIOGUÍA ----------
+// Pantalla dedicada, se abre desde el botón "escuchar" de cualquier ficha,
+// mapa o Hoy. A diferencia del primer borrador de Claude Design, esto NO
+// simula la reproducción con un temporizador: usa los eventos reales del
+// Web Speech API (onstart/onend) para saber de verdad cuándo empieza y
+// termina cada parada — por eso no hay barra de progreso con tiempo
+// exacto, solo estado (reproduciendo/detenida) y velocidad que se aplica
+// en la siguiente reproducción, como corresponde a voz sintetizada en vivo.
+let player = { queueIds: [], currentId: null, playing: false, rate: 0.88 };
+
+function openAudioPlayer(stopId) {
+  const stop = findStopById(dataset, stopId);
+  if (!stop) return;
+  const day = dataset.dias[stop._dayIndex];
+  player.queueIds = day.stops.map((s) => s.id);
+  playAudioPlayerStop(stopId);
+  document.getElementById('player-overlay').classList.add('open');
+}
+
+function closeAudioPlayer() {
+  stopSpeaking();
+  player.playing = false;
+  document.getElementById('player-overlay').classList.remove('open');
+}
+
+function playAudioPlayerStop(stopId) {
+  const stop = findStopById(dataset, stopId);
+  if (!stop) return;
+  player.currentId = stopId;
+  player.playing = true;
+  renderPlayer();
+  speak(buildAudioScript(stop), state.settings.ttsLang, {
+    rate: player.rate,
+    onstart: () => { player.playing = true; renderPlayer(); },
+    onend: () => {
+      state.audioPlayed[stopId] = Date.now();
+      persist();
+      player.playing = false;
+      const idx = player.queueIds.indexOf(stopId);
+      const nextId = player.queueIds[idx + 1];
+      if (nextId) { playAudioPlayerStop(nextId); } else { renderPlayer(); }
+    },
+    onerror: () => { player.playing = false; renderPlayer(); }
+  });
+}
+
+function renderPlayer() {
+  const card = document.getElementById('player-card');
+  const stop = findStopById(dataset, player.currentId);
+  if (!stop) return;
+  const idx = player.queueIds.indexOf(player.currentId);
+  const color = STAGE_COLORS[stop._stage] || '#B23A2E';
+  const guion = buildAudioScript(stop);
+  const speeds = [0.75, 0.88, 1.05];
+  const speedLabels = { 0.75: '0.8×', 0.88: '1×', 1.05: '1.25×' };
+
+  card.innerHTML = `
+    <div class="sd-band" style="background:${color}">
+      <button class="sd-close" id="player-close">✕</button>
+      <div class="sd-band-inner">
+        <div class="sd-index">Audioguía · parada ${idx + 1} de ${player.queueIds.length}</div>
+        <div class="sd-title">${escapeHtml(stop.n)}${stop.cn ? ` <span class="sd-cn">${escapeHtml(stop.cn)}</span>` : ''}</div>
+      </div>
+    </div>
+    <div class="sd-perf"></div>
+    <div class="sd-body">
+      <div class="player-state">
+        <span class="status-dot ${player.playing ? 'on' : ''}"></span>
+        ${player.playing ? 'Reproduciendo' : 'Detenida'} — voz del dispositivo
+      </div>
+      <div class="sd-actions">
+        <button class="btn primary" id="player-toggle">${player.playing ? '■ Detener' : '▶ Reproducir'}</button>
+      </div>
+      <div class="player-speeds">
+        ${speeds.map((r) => `<button class="chip-toggle player-speed ${player.rate === r ? 'on' : ''}" data-rate="${r}">${speedLabels[r]}</button>`).join('')}
+      </div>
+      <div class="logi-label" style="margin-top:6px">La velocidad se aplica en la próxima reproducción</div>
+
+      <div class="logi-label" style="margin-top:16px">Transcripción</div>
+      <div class="sd-audio-script">${guion}</div>
+
+      <div class="logi-label" style="margin-top:16px">Cola del día</div>
+      ${player.queueIds.map((id, i) => {
+        const s = findStopById(dataset, id);
+        const isCurrent = id === player.currentId;
+        const isDone = !!state.audioPlayed[id];
+        return `<div class="hoy-mini-row player-queue-row ${isCurrent ? 'current' : ''}" data-qid="${id}">
+          <span class="stop-num">${String(i + 1).padStart(2, '0')}</span>
+          <span class="hoy-mini-name">${escapeHtml(s.n)}</span>
+          ${isCurrent ? '<span class="pill">actual</span>' : isDone ? '<span class="stop-badge badge-opt">✓</span>' : ''}
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+
+  document.getElementById('player-close').onclick = closeAudioPlayer;
+  document.getElementById('player-toggle').onclick = () => {
+    if (player.playing) { stopSpeaking(); player.playing = false; renderPlayer(); }
+    else { playAudioPlayerStop(player.currentId); }
+  };
+  card.querySelectorAll('.player-speed').forEach((btn) => {
+    btn.onclick = () => { player.rate = Number(btn.dataset.rate); renderPlayer(); };
+  });
+  card.querySelectorAll('.player-queue-row').forEach((row) => {
+    row.onclick = () => { if (row.dataset.qid !== player.currentId) playAudioPlayerStop(row.dataset.qid); };
+  });
 }
 
 // ---------- MAPA (L2) ----------

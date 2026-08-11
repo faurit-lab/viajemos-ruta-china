@@ -62,20 +62,35 @@ async function pickSpanishVoice(lang) {
   return best;
 }
 
-async function speak(text, lang) {
+// `opts.rate` — velocidad (0.7-1.3). Como el Web Speech API no permite
+// cambiar la velocidad de una reproducción ya empezada, un cambio de
+// velocidad solo se nota en la siguiente vez que se llama a speak().
+// `opts.onstart`/`onend`/`onerror` — eventos reales del motor de voz, para
+// que el reproductor sepa de verdad cuándo empieza y termina cada parada
+// (nada de simular el avance con un temporizador falso).
+async function speak(text, lang, opts) {
+  opts = opts || {};
   if (!('speechSynthesis' in window)) {
     console.warn('[geo] Web Speech API no disponible en este navegador.');
+    if (opts.onerror) opts.onerror(new Error('Web Speech API no disponible'));
     return false;
   }
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = lang || 'es-ES';
-  utter.rate = 0.88;  // más pausado — la voz por defecto sonaba nerviosa/atropellada
+  utter.rate = opts.rate || 0.88;  // más pausado — la voz por defecto sonaba nerviosa/atropellada
   utter.pitch = 1.0;
   const voice = await pickSpanishVoice(lang);
   if (voice) utter.voice = voice;
+  if (opts.onstart) utter.onstart = opts.onstart;
+  if (opts.onend) utter.onend = opts.onend;
+  if (opts.onerror) utter.onerror = opts.onerror;
   window.speechSynthesis.speak(utter);
   return true;
+}
+
+function stopSpeaking() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
 class Geofencer {

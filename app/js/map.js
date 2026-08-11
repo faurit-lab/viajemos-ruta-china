@@ -20,8 +20,8 @@ class MapView {
       const btn = e.popup.getElement().querySelector('.pm-audio-btn');
       if (!btn) return;
       btn.onclick = () => {
-        const stop = allStopsWithCoords(DATASET).find((s) => s.id === btn.dataset.audioid);
-        if (stop) speak(buildAudioScript(stop));
+        if (typeof openAudioPlayer === 'function') openAudioPlayer(btn.dataset.audioid);
+        else { const stop = allStopsWithCoords(DATASET).find((s) => s.id === btn.dataset.audioid); if (stop) speak(buildAudioScript(stop)); }
       };
     });
   }

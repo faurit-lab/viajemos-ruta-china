@@ -2,6 +2,12 @@
   "proyecto": "Copiloto Ruta a China",
   "app_titulo": "Ruta a China",
   "app_titulo_local": "中国之旅",
+  "pais_info": {
+    "moneda": "¥ CNY",
+    "huso_horario": "+6 h respecto a España en verano (China no cambia de hora)",
+    "idioma": "Mandarín",
+    "pagos": "Alipay / WeChat Pay — efectivo cada vez menos aceptado"
+  },
   "viajeros": [
     "Fauri Tamayo Camacho",
     "Antonio Cano Roldán"

@@ -190,6 +190,19 @@ function deriveAlerts(day) {
   return alerts;
 }
 
+// Viajemos · "Destino" — portada editorial de la etapa activa.
+// Las "zonas clave" no son un dato nuevo que haya que inventar: se derivan
+// agrupando los títulos de jornada y sus primeras paradas dentro de esa
+// etapa, que ya existen en el dataset.
+function stageZonas(dataset, stageNum) {
+  return dataset.dias
+    .filter((d) => d.stage === stageNum && d.stops.length > 0)
+    .map((d) => ({
+      title: d.title,
+      sub: d.stops.slice(0, 3).map((s) => s.n).join(', ')
+    }));
+}
+
 function sequenceNeighbors(dataset, stopId) {
   const seq = buildSequence(dataset);
   const idx = seq.findIndex((s) => s.id === stopId);
